@@ -22,6 +22,8 @@ FORBIDDEN = re.compile(
     re.I,
 )
 ALLOWED_START = re.compile(r"^\s*(select|with)\b", re.I)
+_CTE_RE = re.compile(r"\b(?:with|,)\s+([a-z_][a-z0-9_]*)\s+as\s*\(", re.I)
+_USED_RE = re.compile(r"\b(?:from|join)\s+([a-z_][a-z0-9_]*)\b", re.I)
 
 
 class SQLRejected(ValueError):
@@ -72,6 +74,12 @@ def validate(sql: str) -> str:
     hit = FORBIDDEN.search(clean)
     if hit:
         raise SQLRejected(f"包含禁用的关键字：{hit.group(0).upper()}")
+
+    # 表白名单：接入生产库时只放开允许被查的表/视图
+    allowed = set(allowed_tables())
+    for t in sorted(_tables_used(clean)):
+        if t not in allowed:
+            raise SQLRejected(f"表 {t} 不在白名单内（可用：{', '.join(sorted(allowed))}）")
     return text
 
 
@@ -134,12 +142,10 @@ SAMPLES: dict[str, list[str]] = {
 
 
 def schema_text() -> str:
-    """给模型看的 schema 说明：DDL + 行数 + 关键枚举值。"""
+    """给模型看的 schema 说明：DDL + 行数 + 关键枚举值（只暴露白名单内的表）。"""
     con = connect()
     try:
-        tables = [r[0] for r in con.execute(
-            "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' ORDER BY name"
-        )]
+        tables = allowed_tables()
         lines: list[str] = []
         for t in tables:
             cols = con.execute(f"PRAGMA table_info({t})").fetchall()
@@ -181,12 +187,33 @@ def table_columns() -> dict[str, list[str]]:
         con = connect()
         try:
             tables = [r[0] for r in con.execute(
-                "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'"
+                "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' ORDER BY name"
             )]
             _schema_cache = {t: [c[1] for c in con.execute(f"PRAGMA table_info({t})")] for t in tables}
         finally:
             con.close()
     return _schema_cache
+
+
+def allowed_tables() -> list[str]:
+    """白名单内的表。config.ALLOWED_TABLES 留空 = 库里的表全部开放。
+
+    接生产库时把它设成 `jobs_v,companies_v` 这种只读视图，查询就再也碰不到别的表。
+    """
+    existing = list(table_columns())
+    if not config.ALLOWED_TABLES:
+        return existing
+    wanted = list(dict.fromkeys(config.ALLOWED_TABLES))
+    unknown = [t for t in wanted if t not in existing]
+    if unknown:
+        raise SQLRejected(f"ALLOWED_TABLES 里有不存在的表：{', '.join(unknown)}")
+    return [t for t in existing if t in set(wanted)]
+
+
+def _tables_used(sql: str) -> set[str]:
+    """SQL 里真正引用的表（排除 WITH 定义的 CTE 名，否则会把 CTE 当成表拒掉）。"""
+    ctes = {m.lower() for m in _CTE_RE.findall(sql)}
+    return {t.lower() for t in _USED_RE.findall(sql)} - ctes
 
 
 def skill_names() -> list[str]:
@@ -227,10 +254,15 @@ def lint(sql: str) -> list[str]:
     tables = table_columns()
     lowered = sql.lower()
 
-    used_tables = re.findall(r"\b(?:from|join)\s+([a-z_][a-z0-9_]*)", lowered)
+    used_tables = sorted(_tables_used(lowered))
     for t in used_tables:
         if t not in tables:
             issues.append(f"表 {t} 不存在（可用：{', '.join(tables)}）")
+
+    allowed = set(allowed_tables())
+    for t in used_tables:
+        if t in tables and t not in allowed:
+            issues.append(f"表 {t} 不在查询白名单内（可用：{', '.join(sorted(allowed))}）")
 
     # 别名映射：table [AS] alias
     alias_map: dict[str, str] = {}
@@ -252,10 +284,10 @@ def lint(sql: str) -> list[str]:
         if m.group(1) not in _EDU_OK:
             issues.append(f"education 只能取 {sorted(_EDU_OK)}，不能是 '{m.group(1)}'")
     known = {s.lower() for s in skill_names()}
-    for m in re.finditer(r"\bskills?\.name\s*=\s*'([^']*)'", sql, re.I):
+    for m in re.finditer(r"\b(?:skills?|sk|s)\.name\s*=\s*'([^']*)'", sql, re.I):
         if m.group(1).lower() not in known:
             issues.append(f"skills.name 没有 '{m.group(1)}'（可用：{', '.join(skill_names())}）")
-    for m in re.finditer(r"\bskills?\.category\s*=\s*'([^']*)'", sql, re.I):
+    for m in re.finditer(r"\b(?:skills?|sk|s)\.category\s*=\s*'([^']*)'", sql, re.I):
         cats = {"前端", "后端", "ai", "数据", "工程", "算法", "测试", "硬件"}
         if m.group(1).lower() not in cats:
             issues.append(f"skills.category 没有 '{m.group(1)}'")

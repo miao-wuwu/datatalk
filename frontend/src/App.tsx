@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import * as api from "./api";
 import { ResultCard } from "./components/ResultCard";
 import type { AskResult, Health } from "./types";
@@ -10,6 +10,8 @@ export default function App() {
   const [question, setQuestion] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [ctx, setCtx] = useState<AskResult | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     void api.health().then(setHealth).catch(() => setHealth(null));
@@ -28,8 +30,10 @@ export default function App() {
       setBusy(true);
       setError(null);
       try {
-        const result = await api.ask(q);
+        const history = ctx ? [{ question: ctx.question, sql: ctx.sql }] : undefined;
+        const result = await api.ask(q, history);
         setResults((prev) => [result, ...prev]);
+        setCtx(history ? result : null);
         setQuestion("");
       } catch (exc) {
         setError(exc instanceof Error ? exc.message : String(exc));
@@ -37,7 +41,7 @@ export default function App() {
         setBusy(false);
       }
     },
-    [busy],
+    [busy, ctx],
   );
 
   const runManualSql = useCallback(async (sql: string) => {
@@ -136,6 +140,17 @@ export default function App() {
         </aside>
 
         <section className="panel">
+          {ctx && (
+            <div className="followup">
+              <span>
+                追问上下文：<b>{ctx.question}</b>
+              </span>
+              <button type="button" className="link" onClick={() => setCtx(null)}>
+                取消
+              </button>
+            </div>
+          )}
+
           <form
             className="ask-bar"
             onSubmit={(e) => {
@@ -144,9 +159,10 @@ export default function App() {
             }}
           >
             <input
+              ref={inputRef}
               value={question}
               onChange={(e) => setQuestion(e.target.value)}
-              placeholder="比如：北京招 Python 的公司里，哪家给的钱最多？"
+              placeholder={ctx ? "接着问：那上海呢？只看本科的？" : "比如：北京招 Python 的公司里，哪家给的钱最多？"}
               autoFocus
             />
             <button type="submit" className="primary" disabled={busy || !question.trim()}>
@@ -171,7 +187,15 @@ export default function App() {
 
           <div className="results">
             {results.map((r, i) => (
-              <ResultCard key={`${r.question}-${i}`} result={r} onRunSql={runManualSql} />
+              <ResultCard
+                key={`${r.question}-${i}`}
+                result={r}
+                onRunSql={runManualSql}
+                onFollowUp={(picked) => {
+                  setCtx(picked);
+                  inputRef.current?.focus();
+                }}
+              />
             ))}
           </div>
         </section>

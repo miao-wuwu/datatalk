@@ -1,0 +1,16 @@
+services:
+  datatalk:
+    build: .
+    image: datatalk:latest
+    ports:
+      - "8100:8100"
+    environment:
+      # 宿主机上跑着 Ollama 时用这个地址；换远端模型改这一行
+      LLM_BASE_URL: ${LLM_BASE_URL:-http://host.docker.internal:11434/v1}
+      LLM_MODEL: ${LLM_MODEL:-studymate-qwen}
+      LLM_API_KEY: ${LLM_API_KEY:-}
+      # 接生产库时把白名单收紧，例如：jobs_v,companies_v
+      ALLOWED_TABLES: ${ALLOWED_TABLES:-}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped

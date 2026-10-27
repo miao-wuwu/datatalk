@@ -1,4 +1,4 @@
-import type { AskResult, Health, SqlResult } from "./types";
+import type { AskResult, Health, HistoryTurn, SqlResult } from "./types";
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const resp = await fetch(path, {
@@ -23,8 +23,11 @@ export const health = () => request<Health>("/api/health");
 
 export const examples = () => request<{ examples: string[] }>("/api/examples");
 
-export const ask = (question: string) =>
-  request<AskResult>("/api/ask", { method: "POST", body: JSON.stringify({ question }) });
+export const ask = (question: string, history?: HistoryTurn[]) =>
+  request<AskResult>("/api/ask", {
+    method: "POST",
+    body: JSON.stringify(history && history.length ? { question, history } : { question }),
+  });
 
 export const runSql = (sql: string) =>
   request<SqlResult>("/api/sql", { method: "POST", body: JSON.stringify({ sql }) });

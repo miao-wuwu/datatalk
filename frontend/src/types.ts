@@ -32,6 +32,12 @@ export interface AskResult {
   attempts: number;
   confidence: "high" | "medium" | "low";
   error?: string | null;
+  rewritten?: string | null;
+}
+
+export interface HistoryTurn {
+  question: string;
+  sql: string;
 }
 
 export interface SqlResult {

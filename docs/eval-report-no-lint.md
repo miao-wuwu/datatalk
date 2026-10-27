@@ -2,37 +2,37 @@
 
 - 模型：`studymate-qwen`
 - 语义校验：关闭　自修复上限：2
-- 题量：102　总耗时：70.4s
+- 题量：102　总耗时：74.2s
 
 ## 总体
 
 | 指标 | 数值 | 说明 |
 | --- | --- | --- |
-| 执行准确率（strict） | **71.6%** | 结果集逐值相等 |
-| 执行准确率（relaxed） | 71.6% | 容忍列顺序不同 |
-| 首次生成准确率 | 68.6% | 一次生成即正确，无需修复 |
+| 执行准确率（strict） | **74.5%** | 结果集逐值相等 |
+| 执行准确率（relaxed） | 74.5% | 容忍列顺序不同 |
+| 首次生成准确率 | 71.6% | 一次生成即正确，无需修复 |
 | 自修复救回 | 3 题 | 修复后才对 |
-| 平均修复轮次 | 0.16 | 含 0 次的题 |
-| 平均延迟 / P95 | 689ms / 1617ms | 端到端 |
+| 平均修复轮次 | 0.15 | 含 0 次的题 |
+| 平均延迟 / P95 | 727ms / 1655ms | 端到端 |
 
 ## 分类
 
 | 类别 | 题数 | strict | relaxed |
 | --- | --- | --- | --- |
 | 薪资 | 21 | 81% | 81% |
-| 组合 | 21 | 52% | 52% |
+| 组合 | 21 | 57% | 57% |
 | 计数 | 20 | 95% | 95% |
-| 分组 | 20 | 65% | 65% |
+| 分组 | 20 | 75% | 75% |
 | 技能 | 20 | 65% | 65% |
 
-失败类型：values 14 题，row_count 7 题，empty 6 题，col_count 2 题
+失败类型：values 13 题，row_count 6 题，empty 4 题，col_count 3 题
 
 ## 失败样例（最多 12 条）
 
 ### 1. 北京有多少个实习岗位？
 - 类型：`values`　行数 gold/got：1/1　尝试：0
 - 金标准：`select count(*) from jobs where city='北京'`
-- 模型：`SELECT COUNT(*) AS 岗位数 FROM jobs WHERE city = '北京' AND education = '不限'`
+- 模型：`SELECT COUNT(*) AS 岗位数 FROM jobs WHERE city = '北京' AND education = '不限' AND jobs.title LIKE '%实习%'`
 
 ### 30. 硕士和本科的平均日薪分别是多少？
 - 类型：`row_count`　行数 gold/got：2/1　尝试：0
@@ -63,13 +63,13 @@ FROM (SELECT salary_avg AS x FROM jobs WHERE salary_avg IS NOT NULL ORDER BY x
       LIMIT 1 OFFSET 0)`
 
 ### 41. 平均日薪最高的城市是哪个？
-- 类型：`values`　行数 gold/got：1/1　尝试：0
+- 类型：`values`　行数 gold/got：1/1　尝试：1
 - 金标准：`select city, round(avg(salary_avg),1) as s from jobs where city is not null and salary_avg is not null group by city order by s desc limit 1`
 - 模型：`SELECT jobs.city AS 平均日薪最高的城市, ROUND(AVG(jobs.salary_avg), 1) AS 平均日薪
 FROM jobs
 WHERE salary_avg IS NOT NULL
 GROUP BY jobs.city
-ORDER BY AVG(jobs.salary_avg) DESC
+ORDER BY 平均日薪 DESC
 LIMIT 1`
 
 ### 43. 各城市平均日薪从高到低前十个
@@ -81,17 +81,6 @@ WHERE salary_avg IS NOT NULL
 GROUP BY jobs.city
 ORDER BY 平均日薪 DESC
 LIMIT 10`
-
-### 49. 按行业统计平均日薪
-- 类型：`empty`　行数 gold/got：4/0　尝试：1
-- 金标准：`select c.industry, round(avg(j.salary_avg),1) as s from jobs j join companies c on c.id=j.company_id where j.salary_avg is not null group by c.industry order by s desc`
-- 模型：`SELECT jobs.industry AS 行业, ROUND(AVG(jobs.salary_avg), 1) AS 平均日薪
-FROM jobs
-WHERE salary_avg IS NOT NULL
-GROUP BY jobs.industry
-ORDER BY 平均日薪 DESC
-LIMIT 10`
-- 错误：自修复失败：模型未能修正 SQL
 
 ### 50. 每周实习天数各有多少个岗位
 - 类型：`row_count`　行数 gold/got：7/1　尝试：0
@@ -107,11 +96,6 @@ WHERE salary_avg IS NOT NULL
 GROUP BY months
 ORDER BY 岗位数 DESC
 LIMIT 5`
-
-### 54. 哪个城市的岗位数量最多？
-- 类型：`row_count`　行数 gold/got：1/42　尝试：0
-- 金标准：`select city, count(*) as n from jobs where city is not null group by city order by n desc limit 1`
-- 模型：`SELECT city AS 城市, COUNT(*) AS 岗位数 FROM jobs WHERE city IS NOT NULL GROUP BY city ORDER BY 岗位数 DESC LIMIT 50`
 
 ### 58. 平均日薪超过250元的城市有哪些？
 - 类型：`row_count`　行数 gold/got：4/5　尝试：0
@@ -131,4 +115,40 @@ FROM jobs WHERE salary_avg IS NOT NULL AND (city = '深圳' OR city = '北京')
 GROUP BY city
 ORDER BY 岗位数 DESC
 LIMIT 1`
+
+### 63. 要求 Agent 的岗位有多少个？
+- 类型：`empty`　行数 gold/got：1/0　尝试：2
+- 金标准：`select count(distinct j.id) from jobs j join job_skills js on js.job_id=j.id join skills s on s.id=js.skill_id where s.name='Agent'`
+- 模型：`SELECT COUNT(DISTINCT jobs.id) AS 岗位数
+FROM jobs
+WHERE job_skills IN (
+    SELECT job_id
+    FROM job_skills
+    WHERE skill_id IN (
+        SELECT id
+        FROM skills
+        WHERE name = 'Agent'
+    )
+)`
+- 错误：自修复失败：模型未能修正 SQL
+
+### 66. 要求大模型/LLM 的岗位有多少个？
+- 类型：`empty`　行数 gold/got：1/0　尝试：2
+- 金标准：`select count(distinct j.id) from jobs j join job_skills js on js.job_id=j.id join skills s on s.id=js.skill_id where s.name='大模型/LLM'`
+- 模型：`SELECT COUNT(DISTINCT jobs.id) AS 岗位数
+FROM jobs
+WHERE job_skills IN (
+    SELECT job_id
+    FROM job_skills
+    WHERE skill_id IN (
+        SELECT id
+        FROM skills
+        WHERE name = '大模型/LLM'
+        UNION
+        SELECT id
+        FROM skills
+        WHERE name = 'LangChain'
+    )
+)`
+- 错误：自修复失败：模型未能修正 SQL
 

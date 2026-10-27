@@ -22,3 +22,10 @@ MAX_REPAIR = int(os.getenv("MAX_REPAIR", "2"))
 MAX_QUESTION_CHARS = int(os.getenv("MAX_QUESTION_CHARS", "300"))
 # 语义校验开关（关闭后只剩静态校验 + 执行校验，用于 ablation）
 SEMANTIC_CHECK = os.getenv("SEMANTIC_CHECK", "1").strip().lower() not in {"0", "false", "no"}
+
+# 多轮追问：把「那上海呢」这类指代先改写成独立问题，再生成 SQL
+MULTI_TURN = os.getenv("MULTI_TURN", "1").strip().lower() not in {"0", "false", "no"}
+HISTORY_TURNS = int(os.getenv("HISTORY_TURNS", "3"))
+
+# 表白名单：逗号分隔，留空表示允许库里所有表（演示库就是 4 张表）
+ALLOWED_TABLES = [t.strip() for t in os.getenv("ALLOWED_TABLES", "").split(",") if t.strip()]

@@ -15,7 +15,11 @@ from pydantic import BaseModel, Field
 
 from . import config, db, llm, pipeline
 
-app = FastAPI(title="DataTalk", version="0.1.0", description="自然语言查数据库")
+app = FastAPI(
+    title="DataTalk",
+    version="0.2.0",
+    description="自然语言查数据库：NL2SQL + 三道校验 + 自修复 + 多轮追问",
+)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
@@ -35,8 +39,14 @@ EXAMPLES = [
 ]
 
 
+class HistoryTurn(BaseModel):
+    question: str = Field(..., min_length=1, max_length=300)
+    sql: str = Field(default="", max_length=4000)
+
+
 class AskIn(BaseModel):
     question: str = Field(..., min_length=1, max_length=300)
+    history: list[HistoryTurn] | None = Field(default=None, max_length=config.HISTORY_TURNS)
 
 
 class SQLIn(BaseModel):
@@ -66,14 +76,14 @@ def schema() -> dict:
 
 @app.post("/api/ask")
 async def ask(body: AskIn) -> dict:
+    history = [t.model_dump() for t in body.history] if body.history else None
     try:
-        result = await pipeline.ask(body.question)
+        result = await pipeline.ask(body.question, history=history)
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
     except llm.LLMError as exc:
         raise HTTPException(status_code=502, detail=f"模型服务异常：{exc}") from exc
-    if result.error:
-        raise HTTPException(status_code=422, detail={"message": result.error, "steps": result.steps})
+    # 失败也返回 200：把已跑过的步骤交给前端，用户能看见卡在哪一步
     return result.to_dict()
 
 

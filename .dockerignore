@@ -1,0 +1,13 @@
+.git
+.venv
+__pycache__
+*.pyc
+frontend/node_modules
+frontend/dist
+screenshots
+docs
+data/_*.json
+data/eval_result*.json
+backend/scripts/_*.py
+scripts/_*.py
+.env

@@ -42,6 +42,17 @@ SQL：
 
 请修正后只输出一条新的 SELECT 语句。要求同上：只输出 SQL，不要解释。"""
 
+REWRITE = """你是查询改写助手。下面是对多轮对话的记录（用户问题 + 当时生成的 SQL）。
+
+{history}
+
+用户的新问题：{question}
+
+新问题可能是追问（例如「那上海呢」「只看本科的」「换成年薪」），必须结合上文才能理解。
+请把它改写成一个**不依赖上下文、可以独立执行**的完整中文问题。
+只输出改写后的问题本身：不要解释，不要输出 SQL，不要加引号。
+如果新问题本身已经完整，原样输出。"""
+
 
 @dataclass
 class Step:
@@ -65,6 +76,7 @@ class AskResult:
     attempts: int = 0
     confidence: str = "high"
     error: str | None = None
+    rewritten: str | None = None
 
     def to_dict(self) -> dict:
         return asdict(self)
@@ -86,13 +98,42 @@ def extract_sql(text: str) -> str:
     return sql.rstrip(";").strip()
 
 
-async def _generate(question: str) -> tuple[str, dict]:
+async def _rewrite(question: str, history: list[dict]) -> str:
+    """把追问改写成独立问题；失败时静默退回原问题。"""
+    lines = []
+    for turn in history[-config.HISTORY_TURNS:]:
+        q = (turn.get("question") or "").strip()
+        sql = (turn.get("sql") or "").strip()
+        if q:
+            lines.append(f"用户：{q}\nSQL：{sql or '（无）'}")
+    if not lines:
+        return question
+    out = await llm.chat(
+        [{"role": "user", "content": REWRITE.format(history="\n\n".join(lines), question=question)}],
+        temperature=0.0,
+        max_tokens=120,
+    )
+    text = (out["text"] or "").strip()
+    text = re.sub(r"^```.*?\n|```$", "", text, flags=re.S).strip()
+    first = text.splitlines()[0].strip() if text else ""
+    return first.strip("\"'“”「」 ") or question
+
+
+async def _generate(question: str, history: list[dict] | None = None) -> tuple[str, dict]:
     examples = semantic.pick_examples(question, k=2)
     shots = "\n\n".join(f"问题：{nl}\nSQL：\n{sql}" for nl, sql in examples)
+    ctx = ""
+    if history:
+        prev = [t for t in history[-config.HISTORY_TURNS:] if t.get("sql")]
+        if prev:
+            ctx = (
+                "\n\n这是多轮对话的上下文（上一问和当时的 SQL，可参考但不要照抄）：\n"
+                + "\n\n".join(f"问：{t['question']}\nSQL：{t['sql']}" for t in prev)
+            )
     user = (
         f"数据库结构：\n{db.schema_text()}\n\n"
         f"{semantic.glossary_text()}\n\n"
-        f"参考示例：\n{shots}\n\n"
+        f"参考示例：\n{shots}{ctx}\n\n"
         f"问题：{question}\nSQL："
     )
     out = await llm.chat(
@@ -157,8 +198,13 @@ def lint_semantics(sql: str, question: str) -> list[str]:
         if m.group(1) not in db.source_values():
             issues.append(f"jobs.source 只能取 {db.source_values()}，不能是 '{m.group(1)}'")
 
-    # 同一个 skills.name 被 AND 两次（逻辑上必然 0 行）：应该用 IN + HAVING
-    if re.search(r"\bskills?\.name\s*=\s*'[^']*'[\s\S]{0,120}?\band\b[\s\S]{0,60}?\bskills?\.name\s*=\s*'", sql, re.I):
+    # 同一个技能列被 AND 两次（逻辑上必然 0 行）：应该用 IN + HAVING
+    if re.search(
+        r"\b(?:skills?|sk|s)\.name\s*=\s*'[^']*'[\s\S]{0,120}?\band\b[\s\S]{0,60}?"
+        r"\b(?:skills?|sk|s)\.name\s*=\s*'",
+        sql,
+        re.I,
+    ):
         issues.append("同一列 skills.name 不能同时等于两个值（结果必然为空）；要「同时满足多个技能」请用 "
                       "IN ('A','B') + GROUP BY job_id HAVING COUNT(DISTINCT name)=2")
 
@@ -214,7 +260,7 @@ def make_answer(columns: list[str], rows: list[list[Any]], row_count: int, trunc
     return "".join(parts)
 
 
-async def ask(question: str, max_rows: int | None = None) -> AskResult:
+async def ask(question: str, max_rows: int | None = None, history: list[dict] | None = None) -> AskResult:
     question = (question or "").strip()
     if not question:
         raise ValueError("问题不能为空")
@@ -227,10 +273,26 @@ async def ask(question: str, max_rows: int | None = None) -> AskResult:
     def add(name: str, status: str, detail: str, since: float) -> None:
         result.steps.append(asdict(Step(name, status, detail, int((time.perf_counter() - since) * 1000))))
 
+    # 0) 多轮追问：先把「那上海呢」改写成完整问题
+    standalone = question
+    if history and config.MULTI_TURN:
+        s = time.perf_counter()
+        try:
+            rewritten = await _rewrite(question, history)
+        except llm.LLMError:
+            add("理解追问", "skipped", "上下文改写不可用，按原问题处理", s)
+        else:
+            if rewritten and rewritten != question:
+                standalone = rewritten
+                result.rewritten = rewritten
+                add("理解追问", "ok", rewritten[:100], s)
+            else:
+                add("理解追问", "skipped", "问题已完整，无需改写", s)
+
     # 1) 生成
     s = time.perf_counter()
     try:
-        sql, usage = await _generate(question)
+        sql, usage = await _generate(standalone, history)
     except llm.LLMError as exc:
         add("生成 SQL", "error", str(exc), s)
         result.error = str(exc)
@@ -250,7 +312,7 @@ async def ask(question: str, max_rows: int | None = None) -> AskResult:
     while True:
         issues = db.lint(current)
         if config.SEMANTIC_CHECK:
-            issues += lint_semantics(current, question)
+            issues += lint_semantics(current, standalone)
         s = time.perf_counter()
         if issues:
             last_error = "语义校验未通过：" + "；".join(issues[:3])
@@ -279,7 +341,7 @@ async def ask(question: str, max_rows: int | None = None) -> AskResult:
             return result
         s = time.perf_counter()
         try:
-            fixed = await _repair(question, current, last_error)
+            fixed = await _repair(standalone, current, last_error)
         except llm.LLMError as exc:
             result.error = str(exc)
             add("自修复", "error", str(exc), s)
