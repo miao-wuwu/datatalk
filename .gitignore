@@ -6,3 +6,9 @@ frontend/dist/
 data/jobs.db
 .env
 screenshots/_*
+
+# 调试产物
+backend/scripts/_*.py
+scripts/_*.py
+data/_*.json
+docs/eval-report-*.md
