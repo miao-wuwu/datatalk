@@ -19,13 +19,17 @@ SYSTEM = """你是 SQLite 查询专家。把用户的中文问题翻译成一条
 2. 只能查询，禁止 INSERT/UPDATE/DELETE/DROP/CREATE/ALTER 等写操作。
 3. 只能用下面给出的表和列，不要编造字段。
 4. 输出列用中文别名（AS 中文名），便于直接展示。
-5. 结果有可能很多时加 LIMIT 50；按某维度聚合排序的用 LIMIT 20。
+5. 结果有可能很多时加 LIMIT 50；按某维度聚合排序的默认 LIMIT 20。**但问题里明确说「前 N」「最多的 N 个」时一律用 LIMIT N；问「哪个 X 最多/最高/最低」这类只要第一名的问题，用 LIMIT 1。**
 6. 计算薪资必须排除 salary_avg IS NULL 的行。
 7. 字符串比较用 = 或 LIKE，城市值用简体中文（北京/上海/深圳…）。
-8. **不要添加问题里没有提到的过滤条件**。特别注意：不要因为"实习"就给 education 加条件，不要给 title 加精确匹配。
+8. **不要添加问题里没有提到的过滤条件**。特别注意：**表里每一行都是实习岗位**，问「有多少个实习岗位」就等于 `SELECT COUNT(*) FROM jobs`（最多再按城市过滤），不要因为出现"实习"二字就加 education 或 title 条件；education 只能取：不限 / 博士 / 大专 / 本科 / 硕士。
 9. 分组统计必须 ORDER BY 指标 DESC；按城市分组要加 `WHERE city IS NOT NULL`。
 10. 按技能筛选时，用 job_skills 关联 skills.name（取上面列出的准确写法），不要用 title LIKE。
 11. 如果问题信息不足（比如没说什么城市却要"这个城市"），按最常见口径处理，并在 SQL 注释里说明。
+12. 「同时满足两个技能」不能写成 `s.name='A' AND s.name='B'`（必然 0 行），要写成 `WHERE s.name IN ('A','B') GROUP BY js.job_id HAVING COUNT(DISTINCT s.name)=2`。
+13. 行业来自 companies.industry，来源来自 jobs.source，取值必须与上面给出的枚举逐字一致（比如「汽车」不是「汽车行业」）。jobs 表没有 industry 列。
+14. 「日薪」相关一律用 salary_avg：最高 = MAX(salary_avg)，最低 = MIN(salary_avg)，不要用 salary_max / salary_min。
+15. 问「分别多少」「对比」时必须是分组查询（GROUP BY 学历 / 城市等），不能只返回一个总数。岗位所在城市用 jobs.city，不要用 companies.city。
 """
 
 REPAIR = """刚才的 SQL 执行失败了。
@@ -140,8 +144,27 @@ def lint_semantics(sql: str, question: str) -> list[str]:
     if re.search(r"\bgroup\s+by\b", sql, re.I) and not re.search(r"\border\s+by\b", sql, re.I):
         issues.append("这是分组统计，请加 ORDER BY 指标 DESC 让结果有序")
 
-    if re.search(r"\bgroup\s+by\s+(?:\w+\.)?city\b", sql, re.I) and not re.search(r"city\s+is\s+not\s+null", sql, re.I):
+    if re.search(r"\bgroup\s+by\s+(?:\w+\.)?city\b", sql, re.I) \
+            and not re.search(r"city\s+is\s+not\s+null", sql, re.I) \
+            and not re.search(r"\bcity\s*(?:=|in)\s*\(?'", sql, re.I):
         issues.append("按城市统计时请加 WHERE city IS NOT NULL，避免出现空城市分组")
+
+    # 行业 / 来源 的字面量必须在枚举内（3B 常写「汽车行业」「牛客网」）
+    for m in re.finditer(r"\b(?:c|companies)\w*\.industry\s*=\s*'([^']*)'", sql, re.I):
+        if m.group(1) not in db.industry_values():
+            issues.append(f"companies.industry 只能取 {db.industry_values()}，不能是 '{m.group(1)}'")
+    for m in re.finditer(r"\bjobs?\.source\s*=\s*'([^']*)'", sql, re.I):
+        if m.group(1) not in db.source_values():
+            issues.append(f"jobs.source 只能取 {db.source_values()}，不能是 '{m.group(1)}'")
+
+    # 同一个 skills.name 被 AND 两次（逻辑上必然 0 行）：应该用 IN + HAVING
+    if re.search(r"\bskills?\.name\s*=\s*'[^']*'[\s\S]{0,120}?\band\b[\s\S]{0,60}?\bskills?\.name\s*=\s*'", sql, re.I):
+        issues.append("同一列 skills.name 不能同时等于两个值（结果必然为空）；要「同时满足多个技能」请用 "
+                      "IN ('A','B') + GROUP BY job_id HAVING COUNT(DISTINCT name)=2")
+
+    # 把表名当列用（`WHERE job_skills IN (...)`）——3B 很爱这么写
+    if re.search(r"\bwhere\s+(?:job_skills|skills|jobs|companies)\s+in\b", sql, re.I):
+        issues.append("job_skills / skills 是表不是列；请用 JOIN job_skills js ON js.job_id = jobs.id 再过滤 skills.name")
 
     # 问题里点名了技能，却用 title LIKE 去匹配（3B 的高频偷懒写法）
     if "job_skills" not in sql.lower():
@@ -225,7 +248,9 @@ async def ask(question: str, max_rows: int | None = None) -> AskResult:
     # 2) 语义校验 → 执行 → 自修复
     current, last_error = sql, None
     while True:
-        issues = db.lint(current) + lint_semantics(current, question)
+        issues = db.lint(current)
+        if config.SEMANTIC_CHECK:
+            issues += lint_semantics(current, question)
         s = time.perf_counter()
         if issues:
             last_error = "语义校验未通过：" + "；".join(issues[:3])

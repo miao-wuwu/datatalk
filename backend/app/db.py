@@ -197,6 +197,24 @@ def skill_names() -> list[str]:
         con.close()
 
 
+def industry_values() -> list[str]:
+    con = connect()
+    try:
+        return [r[0] for r in con.execute(
+            "SELECT DISTINCT industry FROM companies WHERE industry IS NOT NULL ORDER BY industry")]
+    finally:
+        con.close()
+
+
+def source_values() -> list[str]:
+    con = connect()
+    try:
+        return [r[0] for r in con.execute(
+            "SELECT DISTINCT source FROM jobs WHERE source IS NOT NULL ORDER BY source")]
+    finally:
+        con.close()
+
+
 _EDU_OK = {"本科", "硕士", "大专", "博士", "不限"}
 
 

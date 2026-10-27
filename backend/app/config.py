@@ -20,3 +20,5 @@ MAX_ROWS = int(os.getenv("MAX_ROWS", "200"))
 QUERY_TIMEOUT = float(os.getenv("QUERY_TIMEOUT", "8"))
 MAX_REPAIR = int(os.getenv("MAX_REPAIR", "2"))
 MAX_QUESTION_CHARS = int(os.getenv("MAX_QUESTION_CHARS", "300"))
+# 语义校验开关（关闭后只剩静态校验 + 执行校验，用于 ablation）
+SEMANTIC_CHECK = os.getenv("SEMANTIC_CHECK", "1").strip().lower() not in {"0", "false", "no"}

@@ -23,8 +23,13 @@ METRICS = [
     },
     {
         "name": "最高/最低日薪",
-        "sql": "MAX(jobs.salary_max) / MIN(jobs.salary_min)",
-        "desc": "同样只看 salary_avg IS NOT NULL 的岗位",
+        "sql": "MAX(jobs.salary_avg) / MIN(jobs.salary_avg)",
+        "desc": "统一用 salary_avg 口径（不要用 salary_max / salary_min，口径会不一致）；先过滤 salary_avg IS NOT NULL",
+    },
+    {
+        "name": "日薪中位数",
+        "sql": "SELECT ROUND(AVG(x),1) FROM (SELECT salary_avg AS x FROM jobs WHERE salary_avg IS NOT NULL ORDER BY x LIMIT (SELECT CASE WHEN COUNT(*)%2=1 THEN 1 ELSE 2 END FROM jobs WHERE salary_avg IS NOT NULL) OFFSET (SELECT (COUNT(*)-1)/2 FROM jobs WHERE salary_avg IS NOT NULL))",
+        "desc": "SQLite 没有 MEDIAN，按上面的写法取中间一个（奇数）或中间两个的平均（偶数）；不要用 AVG 冒充中位数",
     },
     {
         "name": "每周天数",
@@ -59,6 +64,36 @@ SYNONYMS = {
 # ---------------------------------------------------------------- few-shot
 # (问题, SQL, 关键词)——问题里出现的关键词用于检索最相关的示例
 EXAMPLES: list[tuple[str, str, list[str]]] = [
+    (
+        "北京有多少个实习岗位？",
+        """SELECT COUNT(*) AS 岗位数 FROM jobs WHERE city = '北京'""",
+        ["多少", "北京", "岗位"],
+    ),
+    (
+        "要求硕士学历的岗位有多少个？",
+        """SELECT COUNT(*) AS 岗位数 FROM jobs WHERE education = '硕士'""",
+        ["多少", "硕士", "学历"],
+    ),
+    (
+        "哪个城市的岗位数量最多？",
+        """SELECT city AS 城市, COUNT(*) AS 岗位数 FROM jobs
+WHERE city IS NOT NULL GROUP BY city ORDER BY 岗位数 DESC LIMIT 1""",
+        ["哪个城市", "最多", "岗位"],
+    ),
+    (
+        "有薪资的岗位日薪中位数是多少？",
+        """SELECT ROUND(AVG(x), 1) AS 日薪中位数
+FROM (SELECT salary_avg AS x FROM jobs WHERE salary_avg IS NOT NULL ORDER BY x
+      LIMIT (SELECT CASE WHEN COUNT(*) % 2 = 1 THEN 1 ELSE 2 END FROM jobs WHERE salary_avg IS NOT NULL)
+      OFFSET (SELECT (COUNT(*) - 1) / 2 FROM jobs WHERE salary_avg IS NOT NULL))""",
+        ["中位", "日薪", "多少"],
+    ),
+    (
+        "硕士和本科的平均日薪分别是多少？",
+        """SELECT education AS 学历, ROUND(AVG(salary_avg), 1) AS 平均日薪
+FROM jobs WHERE education IN ('硕士','本科') AND salary_avg IS NOT NULL GROUP BY education""",
+        ["分别", "本科", "硕士"],
+    ),
     (
         "北京有哪些公司在招 Python 实习生？",
         """SELECT c.name AS 公司, COUNT(*) AS 岗位数
@@ -150,9 +185,15 @@ def glossary_text() -> str:
     metrics = "\n".join(f"- {m['name']}：{m['sql']}；{m['desc']}" for m in METRICS)
     syn = "\n".join(f"- {k} → {v}" for k, v in SYNONYMS.items())
     skills = db.skill_names()
+    industries = "、".join(db.industry_values())
+    sources = "、".join(db.source_values())
     return (
         f"指标口径（必须遵守）：\n{metrics}\n\n"
         f"词汇映射：\n{syn}\n\n"
+        "jobs.education 只能取这些值（逐字照抄）：不限、博士、大专、本科、硕士；"
+        "「实习」不是 education 的取值（整张表都是实习岗位）。\n"
+        f"companies.industry 只能取：{industries}。\n"
+        f"jobs.source 只能取：{sources}（「来自某平台」用它过滤，不是 companies.name）。\n\n"
         f"skills.name 只能取这些值（共 {len(skills)} 个，逐字照抄）：\n"
         + "、".join(skills)
         + "\n（skills.category 取值：前端 / 后端 / AI / 数据 / 工程 / 算法 / 测试 / 硬件）"

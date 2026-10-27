@@ -1,0 +1,3190 @@
+{
+ "config": {
+  "model": "studymate-qwen",
+  "semantic_check": true,
+  "max_repair": 2,
+  "tag": ""
+ },
+ "summary": {
+  "n": 102,
+  "strict_acc": 0.8039,
+  "relaxed_acc": 0.8039,
+  "first_pass_acc": 0.6471,
+  "repair_success": 16,
+  "repair_attempts": 29,
+  "avg_attempts": 0.28,
+  "avg_latency_ms": 789,
+  "p95_latency_ms": 2007,
+  "failures": {
+   "col_count": 2,
+   "values": 10,
+   "empty": 3,
+   "row_count": 5
+  },
+  "by_category": {
+   "计数": {
+    "n": 20,
+    "strict": 20,
+    "relaxed": 20
+   },
+   "薪资": {
+    "n": 21,
+    "strict": 18,
+    "relaxed": 18
+   },
+   "分组": {
+    "n": 20,
+    "strict": 14,
+    "relaxed": 14
+   },
+   "技能": {
+    "n": 20,
+    "strict": 15,
+    "relaxed": 15
+   },
+   "组合": {
+    "n": 21,
+    "strict": 15,
+    "relaxed": 15
+   }
+  },
+  "elapsed_s": 80.6
+ },
+ "results": [
+  {
+   "id": 1,
+   "category": "计数",
+   "question": "北京有多少个实习岗位？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 1,
+   "confidence": "medium",
+   "latency_ms": 2010,
+   "error": "",
+   "sql": "SELECT COUNT(*) AS 岗位数 FROM jobs WHERE city = '北京'",
+   "gold_sql": "select count(*) from jobs where city='北京'",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     594
+    ]
+   ],
+   "sample_gold": [
+    [
+     594
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 2,
+   "category": "计数",
+   "question": "上海有多少个实习岗位？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 291,
+   "error": "",
+   "sql": "SELECT COUNT(*) AS 岗位数 FROM jobs WHERE city = '上海'",
+   "gold_sql": "select count(*) from jobs where city='上海'",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     443
+    ]
+   ],
+   "sample_gold": [
+    [
+     443
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 3,
+   "category": "计数",
+   "question": "深圳有多少个实习岗位？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 296,
+   "error": "",
+   "sql": "SELECT COUNT(*) AS 岗位数 FROM jobs WHERE city = '深圳'",
+   "gold_sql": "select count(*) from jobs where city='深圳'",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     126
+    ]
+   ],
+   "sample_gold": [
+    [
+     126
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 4,
+   "category": "计数",
+   "question": "杭州有多少个实习岗位？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 291,
+   "error": "",
+   "sql": "SELECT COUNT(*) AS 岗位数 FROM jobs WHERE city = '杭州'",
+   "gold_sql": "select count(*) from jobs where city='杭州'",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     69
+    ]
+   ],
+   "sample_gold": [
+    [
+     69
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 5,
+   "category": "计数",
+   "question": "广州有多少个实习岗位？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 291,
+   "error": "",
+   "sql": "SELECT COUNT(*) AS 岗位数 FROM jobs WHERE city = '广州'",
+   "gold_sql": "select count(*) from jobs where city='广州'",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     56
+    ]
+   ],
+   "sample_gold": [
+    [
+     56
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 6,
+   "category": "计数",
+   "question": "成都一共有多少个岗位？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 294,
+   "error": "",
+   "sql": "SELECT COUNT(*) AS 岗位数 FROM jobs WHERE city = '成都'",
+   "gold_sql": "select count(*) from jobs where city='成都'",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     65
+    ]
+   ],
+   "sample_gold": [
+    [
+     65
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 7,
+   "category": "计数",
+   "question": "南京有多少个岗位？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 303,
+   "error": "",
+   "sql": "SELECT COUNT(*) AS 岗位数 FROM jobs WHERE city = '南京'",
+   "gold_sql": "select count(*) from jobs where city='南京'",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     49
+    ]
+   ],
+   "sample_gold": [
+    [
+     49
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 8,
+   "category": "计数",
+   "question": "苏州有多少个岗位？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 300,
+   "error": "",
+   "sql": "SELECT COUNT(*) AS 岗位数 FROM jobs WHERE city = '苏州'",
+   "gold_sql": "select count(*) from jobs where city='苏州'",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     37
+    ]
+   ],
+   "sample_gold": [
+    [
+     37
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 9,
+   "category": "计数",
+   "question": "要求硕士学历的岗位有多少个？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 304,
+   "error": "",
+   "sql": "SELECT COUNT(*) AS 岗位数 FROM jobs WHERE education = '硕士'",
+   "gold_sql": "select count(*) from jobs where education='硕士'",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     404
+    ]
+   ],
+   "sample_gold": [
+    [
+     404
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 10,
+   "category": "计数",
+   "question": "要求博士学历的岗位有多少个？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 300,
+   "error": "",
+   "sql": "SELECT COUNT(*) AS 岗位数 FROM jobs WHERE education = '博士'",
+   "gold_sql": "select count(*) from jobs where education='博士'",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     21
+    ]
+   ],
+   "sample_gold": [
+    [
+     21
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 11,
+   "category": "计数",
+   "question": "学历不限的岗位有多少个？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 313,
+   "error": "",
+   "sql": "SELECT COUNT(*) AS 岗位数 FROM jobs WHERE education = '不限'",
+   "gold_sql": "select count(*) from jobs where education='不限'",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     249
+    ]
+   ],
+   "sample_gold": [
+    [
+     249
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 12,
+   "category": "计数",
+   "question": "大专学历的岗位有多少个？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 299,
+   "error": "",
+   "sql": "SELECT COUNT(*) AS 岗位数 FROM jobs WHERE education = '大专'",
+   "gold_sql": "select count(*) from jobs where education='大专'",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     34
+    ]
+   ],
+   "sample_gold": [
+    [
+     34
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 13,
+   "category": "计数",
+   "question": "有多少家不同的公司在招实习？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 275,
+   "error": "",
+   "sql": "SELECT COUNT(DISTINCT company_id) AS 公司数 FROM jobs",
+   "gold_sql": "select count(distinct company_id) from jobs",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     570
+    ]
+   ],
+   "sample_gold": [
+    [
+     570
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 14,
+   "category": "计数",
+   "question": "有多少个岗位标注了薪资？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 299,
+   "error": "",
+   "sql": "SELECT COUNT(*) AS 岗位数 FROM jobs WHERE salary_avg IS NOT NULL",
+   "gold_sql": "select count(*) from jobs where salary_avg is not null",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     1385
+    ]
+   ],
+   "sample_gold": [
+    [
+     1385
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 15,
+   "category": "计数",
+   "question": "有多少个岗位没有标注薪资？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 296,
+   "error": "",
+   "sql": "SELECT COUNT(*) AS 岗位数 FROM jobs WHERE salary_avg IS NULL",
+   "gold_sql": "select count(*) from jobs where salary_avg is null",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     233
+    ]
+   ],
+   "sample_gold": [
+    [
+     233
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 16,
+   "category": "计数",
+   "question": "来自实习僧的岗位有多少个？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 329,
+   "error": "",
+   "sql": "SELECT COUNT(*) AS 岗位数 FROM jobs WHERE jobs.source = '实习僧'",
+   "gold_sql": "select count(*) from jobs where source='实习僧'",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     1466
+    ]
+   ],
+   "sample_gold": [
+    [
+     1466
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 17,
+   "category": "计数",
+   "question": "来自牛客的岗位有多少个？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 333,
+   "error": "",
+   "sql": "SELECT COUNT(*) AS 岗位数 FROM jobs WHERE jobs.source = '牛客'",
+   "gold_sql": "select count(*) from jobs where source='牛客'",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     152
+    ]
+   ],
+   "sample_gold": [
+    [
+     152
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 18,
+   "category": "计数",
+   "question": "要求每周实习5天的岗位有多少个？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 314,
+   "error": "",
+   "sql": "SELECT COUNT(*) AS 岗位数 FROM jobs WHERE days_per_week = 5",
+   "gold_sql": "select count(*) from jobs where days_per_week=5",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     1102
+    ]
+   ],
+   "sample_gold": [
+    [
+     1102
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 19,
+   "category": "计数",
+   "question": "实习期为3个月的岗位有多少个？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 295,
+   "error": "",
+   "sql": "SELECT COUNT(*) AS 岗位数 FROM jobs WHERE months = 3",
+   "gold_sql": "select count(*) from jobs where months=3",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     842
+    ]
+   ],
+   "sample_gold": [
+    [
+     842
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 20,
+   "category": "计数",
+   "question": "岗位覆盖了多少个城市？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 353,
+   "error": "",
+   "sql": "SELECT COUNT(DISTINCT jobs.city) AS 覆盖城市数 FROM jobs WHERE city IS NOT NULL",
+   "gold_sql": "select count(distinct city) from jobs where city is not null",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     42
+    ]
+   ],
+   "sample_gold": [
+    [
+     42
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 21,
+   "category": "薪资",
+   "question": "所有岗位的平均日薪是多少？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 382,
+   "error": "",
+   "sql": "SELECT ROUND(AVG(salary_avg), 1) AS 平均日薪 FROM jobs WHERE salary_avg IS NOT NULL",
+   "gold_sql": "select round(avg(salary_avg),1) from jobs where salary_avg is not null",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     248.5
+    ]
+   ],
+   "sample_gold": [
+    [
+     248.5
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 22,
+   "category": "薪资",
+   "question": "最高的日薪是多少？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 315,
+   "error": "",
+   "sql": "SELECT MAX(salary_avg) AS 最高日薪 FROM jobs WHERE salary_avg IS NOT NULL",
+   "gold_sql": "select max(salary_avg) from jobs where salary_avg is not null",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     1500
+    ]
+   ],
+   "sample_gold": [
+    [
+     1500
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 23,
+   "category": "薪资",
+   "question": "最低的日薪是多少？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 314,
+   "error": "",
+   "sql": "SELECT MIN(salary_avg) AS 最低日薪 FROM jobs WHERE salary_avg IS NOT NULL",
+   "gold_sql": "select min(salary_avg) from jobs where salary_avg is not null",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     40
+    ]
+   ],
+   "sample_gold": [
+    [
+     40
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 24,
+   "category": "薪资",
+   "question": "北京岗位的平均日薪是多少？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 444,
+   "error": "",
+   "sql": "SELECT ROUND(AVG(salary_avg), 1) AS 平均日薪 FROM jobs WHERE city = '北京' AND salary_avg IS NOT NULL",
+   "gold_sql": "select round(avg(salary_avg),1) from jobs where city='北京' and salary_avg is not null",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     288
+    ]
+   ],
+   "sample_gold": [
+    [
+     288
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 25,
+   "category": "薪资",
+   "question": "上海岗位的平均日薪是多少？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 471,
+   "error": "",
+   "sql": "SELECT ROUND(AVG(salary_avg), 1) AS 平均日薪\nFROM jobs\nWHERE city = '上海' AND salary_avg IS NOT NULL",
+   "gold_sql": "select round(avg(salary_avg),1) from jobs where city='上海' and salary_avg is not null",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     246.4
+    ]
+   ],
+   "sample_gold": [
+    [
+     246.4
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 26,
+   "category": "薪资",
+   "question": "深圳岗位的平均日薪是多少？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 446,
+   "error": "",
+   "sql": "SELECT ROUND(AVG(salary_avg), 1) AS 平均日薪 FROM jobs WHERE city = '深圳' AND salary_avg IS NOT NULL",
+   "gold_sql": "select round(avg(salary_avg),1) from jobs where city='深圳' and salary_avg is not null",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     254.1
+    ]
+   ],
+   "sample_gold": [
+    [
+     254.1
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 27,
+   "category": "薪资",
+   "question": "杭州岗位的平均日薪是多少？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 465,
+   "error": "",
+   "sql": "SELECT ROUND(AVG(jobs.salary_avg), 1) AS 平均日薪 FROM jobs WHERE jobs.city = '杭州' AND salary_avg IS NOT NULL",
+   "gold_sql": "select round(avg(salary_avg),1) from jobs where city='杭州' and salary_avg is not null",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     267.6
+    ]
+   ],
+   "sample_gold": [
+    [
+     267.6
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 28,
+   "category": "薪资",
+   "question": "要求硕士的岗位平均日薪是多少？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 474,
+   "error": "",
+   "sql": "SELECT ROUND(AVG(jobs.salary_avg), 1) AS 平均日薪\nFROM jobs\nWHERE education = '硕士' AND salary_avg IS NOT NULL",
+   "gold_sql": "select round(avg(salary_avg),1) from jobs where education='硕士' and salary_avg is not null",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     291.7
+    ]
+   ],
+   "sample_gold": [
+    [
+     291.7
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 29,
+   "category": "薪资",
+   "question": "要求本科的岗位平均日薪是多少？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 526,
+   "error": "",
+   "sql": "SELECT ROUND(AVG(jobs.salary_avg), 1) AS 平均日薪\nFROM jobs\nWHERE jobs.education = '本科' AND jobs.salary_avg IS NOT NULL",
+   "gold_sql": "select round(avg(salary_avg),1) from jobs where education='本科' and salary_avg is not null",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     238.8
+    ]
+   ],
+   "sample_gold": [
+    [
+     238.8
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 30,
+   "category": "薪资",
+   "question": "硕士和本科的平均日薪分别是多少？",
+   "ok": true,
+   "strict": false,
+   "relaxed": false,
+   "attempts": 1,
+   "confidence": "medium",
+   "latency_ms": 2056,
+   "error": "",
+   "sql": "SELECT AVG(j.salary_avg) AS 平均日薪\nFROM jobs j\nJOIN (\n    SELECT company_id, education\n    FROM jobs\n    WHERE education IN ('硕士', '本科')\n    GROUP BY company_id, education\n) sub\nON j.company_id = sub.company_id AND j.education = sub.education\nWHERE j.salary_avg IS NOT NULL\nGROUP BY j.education\nORDER BY j.education DESC",
+   "gold_sql": "select education, round(avg(salary_avg),1) from jobs where education in ('硕士','本科') and salary_avg is not null group by education order by education",
+   "got_rows": 2,
+   "gold_rows": 2,
+   "sample_got": [
+    [
+     291.67
+    ],
+    [
+     238.81
+    ]
+   ],
+   "sample_gold": [
+    [
+     "本科",
+     238.8
+    ],
+    [
+     "硕士",
+     291.7
+    ]
+   ],
+   "kind": "col_count"
+  },
+  {
+   "id": 31,
+   "category": "薪资",
+   "question": "要求每周5天的岗位平均日薪是多少？",
+   "ok": true,
+   "strict": false,
+   "relaxed": false,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 383,
+   "error": "",
+   "sql": "SELECT AVG(days_per_week) AS 平均日薪\nFROM jobs\nWHERE days_per_week = 5",
+   "gold_sql": "select round(avg(salary_avg),1) from jobs where days_per_week=5 and salary_avg is not null",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     5
+    ]
+   ],
+   "sample_gold": [
+    [
+     254.8
+    ]
+   ],
+   "kind": "values"
+  },
+  {
+   "id": 32,
+   "category": "薪资",
+   "question": "互联网行业的平均日薪是多少？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 634,
+   "error": "",
+   "sql": "SELECT ROUND(AVG(jobs.salary_avg), 1) AS 平均日薪\nFROM jobs\nJOIN companies ON jobs.company_id = companies.id\nWHERE companies.industry = '互联网' AND jobs.salary_avg IS NOT NULL",
+   "gold_sql": "select round(avg(salary_avg),1) from jobs j join companies c on c.id=j.company_id where c.industry='互联网' and salary_avg is not null",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     299.9
+    ]
+   ],
+   "sample_gold": [
+    [
+     299.9
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 33,
+   "category": "薪资",
+   "question": "汽车行业的平均日薪是多少？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 603,
+   "error": "",
+   "sql": "SELECT ROUND(AVG(jobs.salary_avg), 1) AS 平均日薪\nFROM jobs\nJOIN companies ON jobs.company_id = companies.id\nWHERE companies.industry = '汽车' AND salary_avg IS NOT NULL",
+   "gold_sql": "select round(avg(salary_avg),1) from jobs j join companies c on c.id=j.company_id where c.industry='汽车' and salary_avg is not null",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     223.8
+    ]
+   ],
+   "sample_gold": [
+    [
+     223.8
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 34,
+   "category": "薪资",
+   "question": "金融行业的平均日薪是多少？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 596,
+   "error": "",
+   "sql": "SELECT ROUND(AVG(jobs.salary_avg), 1) AS 平均日薪\nFROM jobs\nJOIN companies ON jobs.company_id = companies.id\nWHERE companies.industry = '金融' AND salary_avg IS NOT NULL",
+   "gold_sql": "select round(avg(salary_avg),1) from jobs j join companies c on c.id=j.company_id where c.industry='金融' and salary_avg is not null",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     null
+    ]
+   ],
+   "sample_gold": [
+    [
+     null
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 35,
+   "category": "薪资",
+   "question": "硬件行业的平均日薪是多少？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 602,
+   "error": "",
+   "sql": "SELECT ROUND(AVG(jobs.salary_avg), 1) AS 平均日薪\nFROM jobs\nJOIN companies ON jobs.company_id = companies.id\nWHERE companies.industry = '硬件' AND salary_avg IS NOT NULL",
+   "gold_sql": "select round(avg(salary_avg),1) from jobs j join companies c on c.id=j.company_id where c.industry='硬件' and salary_avg is not null",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     298
+    ]
+   ],
+   "sample_gold": [
+    [
+     298
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 36,
+   "category": "薪资",
+   "question": "日薪超过300元的岗位有多少个？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 318,
+   "error": "",
+   "sql": "SELECT COUNT(*) AS 岗位数 FROM jobs WHERE salary_avg > 300",
+   "gold_sql": "select count(*) from jobs where salary_avg>300",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     283
+    ]
+   ],
+   "sample_gold": [
+    [
+     283
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 37,
+   "category": "薪资",
+   "question": "日薪低于150元的岗位有多少个？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 354,
+   "error": "",
+   "sql": "SELECT COUNT(*) AS 岗位数\nFROM jobs\nWHERE salary_avg < 150",
+   "gold_sql": "select count(*) from jobs where salary_avg<150",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     179
+    ]
+   ],
+   "sample_gold": [
+    [
+     179
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 38,
+   "category": "薪资",
+   "question": "北京日薪最高的岗位是多少钱？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 403,
+   "error": "",
+   "sql": "SELECT MAX(salary_avg) AS 最高日薪\nFROM jobs\nWHERE city = '北京'\nAND salary_avg IS NOT NULL",
+   "gold_sql": "select max(salary_avg) from jobs where city='北京' and salary_avg is not null",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     1500
+    ]
+   ],
+   "sample_gold": [
+    [
+     1500
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 39,
+   "category": "薪资",
+   "question": "上海日薪最高的5个岗位是哪几个？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 624,
+   "error": "",
+   "sql": "SELECT title AS 岗位, ROUND(salary_avg, 1) AS 平均日薪\nFROM jobs\nWHERE city = '上海' AND salary_avg IS NOT NULL\nORDER BY salary_avg DESC\nLIMIT 5",
+   "gold_sql": "select title, salary_avg from jobs where city='上海' and salary_avg is not null order by salary_avg desc limit 5",
+   "got_rows": 5,
+   "gold_rows": 5,
+   "sample_got": [
+    [
+     "算法实习生（Benchmark方向）",
+     900
+    ],
+    [
+     "算法实习生",
+     750
+    ],
+    [
+     "大模型算法实习生（北京/上海）-实习留用机会",
+     750
+    ]
+   ],
+   "sample_gold": [
+    [
+     "算法实习生（Benchmark方向）",
+     900
+    ],
+    [
+     "算法实习生",
+     750
+    ],
+    [
+     "大模型算法实习生（北京/上海）-实习留用机会",
+     750
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 40,
+   "category": "薪资",
+   "question": "有薪资的岗位里日薪中位数是多少？",
+   "ok": true,
+   "strict": false,
+   "relaxed": false,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 586,
+   "error": "",
+   "sql": "SELECT ROUND(AVG(x), 1) AS 日薪中位数\nFROM (SELECT salary_avg AS x FROM jobs WHERE salary_avg IS NOT NULL ORDER BY x\n      LIMIT 1 OFFSET 0)",
+   "gold_sql": "select round(avg(x),1) from (select salary_avg as x from jobs where salary_avg is not null order by x limit (select case when count(*)%2=1 then 1 else 2 end from jobs where salary_avg is not null) offset (select (count(*)-1)/2 from jobs where salary_avg is not null))",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     40
+    ]
+   ],
+   "sample_gold": [
+    [
+     225
+    ]
+   ],
+   "kind": "values"
+  },
+  {
+   "id": 41,
+   "category": "薪资",
+   "question": "平均日薪最高的城市是哪个？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 1,
+   "confidence": "medium",
+   "latency_ms": 1553,
+   "error": "",
+   "sql": "SELECT jobs.city AS 平均日薪最高的城市, ROUND(AVG(jobs.salary_avg), 1) AS 平均日薪\nFROM jobs\nWHERE salary_avg IS NOT NULL AND jobs.city IS NOT NULL\nGROUP BY jobs.city\nORDER BY AVG(jobs.salary_avg) DESC\nLIMIT 1",
+   "gold_sql": "select city, round(avg(salary_avg),1) as s from jobs where city is not null and salary_avg is not null group by city order by s desc limit 1",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     "北京",
+     288
+    ]
+   ],
+   "sample_gold": [
+    [
+     "北京",
+     288
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 42,
+   "category": "分组",
+   "question": "各城市的岗位数量排名前十",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 570,
+   "error": "",
+   "sql": "SELECT city AS 城市, COUNT(*) AS 岗位数\nFROM jobs\nWHERE city IS NOT NULL\nGROUP BY city\nORDER BY 岗位数 DESC\nLIMIT 10",
+   "gold_sql": "select city, count(*) as n from jobs where city is not null group by city order by n desc limit 10",
+   "got_rows": 10,
+   "gold_rows": 10,
+   "sample_got": [
+    [
+     "北京",
+     594
+    ],
+    [
+     "上海",
+     443
+    ],
+    [
+     "深圳",
+     126
+    ]
+   ],
+   "sample_gold": [
+    [
+     "北京",
+     594
+    ],
+    [
+     "上海",
+     443
+    ],
+    [
+     "深圳",
+     126
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 43,
+   "category": "分组",
+   "question": "各城市平均日薪从高到低前十个",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 1,
+   "confidence": "medium",
+   "latency_ms": 1496,
+   "error": "",
+   "sql": "SELECT jobs.city AS 城市, ROUND(AVG(jobs.salary_avg), 1) AS 平均日薪\nFROM jobs\nWHERE salary_avg IS NOT NULL AND jobs.city IS NOT NULL\nGROUP BY jobs.city\nORDER BY 平均日薪 DESC\nLIMIT 10",
+   "gold_sql": "select city, round(avg(salary_avg),1) as s from jobs where city is not null and salary_avg is not null group by city order by s desc limit 10",
+   "got_rows": 10,
+   "gold_rows": 10,
+   "sample_got": [
+    [
+     "北京",
+     288
+    ],
+    [
+     "东莞",
+     280
+    ],
+    [
+     "杭州",
+     267.6
+    ]
+   ],
+   "sample_gold": [
+    [
+     "北京",
+     288
+    ],
+    [
+     "东莞",
+     280
+    ],
+    [
+     "杭州",
+     267.6
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 44,
+   "category": "分组",
+   "question": "招聘岗位数量最多的5家公司",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 617,
+   "error": "",
+   "sql": "SELECT c.name AS 公司, COUNT(*) AS 岗位数\nFROM jobs j\nJOIN companies c ON c.id = j.company_id\nGROUP BY c.name\nORDER BY COUNT(*) DESC\nLIMIT 5",
+   "gold_sql": "select c.name, count(*) as n from jobs j join companies c on c.id=j.company_id group by c.id order by n desc limit 5",
+   "got_rows": 5,
+   "gold_rows": 5,
+   "sample_got": [
+    [
+     "滴滴",
+     153
+    ],
+    [
+     "字节跳动",
+     82
+    ],
+    [
+     "百度",
+     67
+    ]
+   ],
+   "sample_gold": [
+    [
+     "滴滴",
+     153
+    ],
+    [
+     "字节跳动",
+     82
+    ],
+    [
+     "百度",
+     67
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 45,
+   "category": "分组",
+   "question": "平均日薪最高的5家公司",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 833,
+   "error": "",
+   "sql": "SELECT companies.name AS 公司名, ROUND(AVG(jobs.salary_avg), 1) AS 平均日薪\nFROM jobs\nJOIN companies ON jobs.company_id = companies.id\nWHERE salary_avg IS NOT NULL\nGROUP BY companies.name\nORDER BY 平均日薪 DESC\nLIMIT 5",
+   "gold_sql": "select c.name, round(avg(j.salary_avg),1) as s from jobs j join companies c on c.id=j.company_id where j.salary_avg is not null group by c.id order by s desc limit 5",
+   "got_rows": 5,
+   "gold_rows": 5,
+   "sample_got": [
+    [
+     "Momenta",
+     1500
+    ],
+    [
+     "世纪前沿",
+     1500
+    ],
+    [
+     "正定私募",
+     1500
+    ]
+   ],
+   "sample_gold": [
+    [
+     "Momenta",
+     1500
+    ],
+    [
+     "世纪前沿",
+     1500
+    ],
+    [
+     "正定私募",
+     1500
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 46,
+   "category": "分组",
+   "question": "不同学历的岗位数量分布",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 1,
+   "confidence": "medium",
+   "latency_ms": 788,
+   "error": "",
+   "sql": "SELECT education AS 学历, COUNT(*) AS 岗位数 FROM jobs GROUP BY education ORDER BY 岗位数 DESC",
+   "gold_sql": "select education, count(*) as n from jobs where education is not null group by education order by n desc",
+   "got_rows": 5,
+   "gold_rows": 5,
+   "sample_got": [
+    [
+     "本科",
+     910
+    ],
+    [
+     "硕士",
+     404
+    ],
+    [
+     "不限",
+     249
+    ]
+   ],
+   "sample_gold": [
+    [
+     "本科",
+     910
+    ],
+    [
+     "硕士",
+     404
+    ],
+    [
+     "不限",
+     249
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 47,
+   "category": "分组",
+   "question": "不同学历的平均日薪",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 604,
+   "error": "",
+   "sql": "SELECT education AS 学历, ROUND(AVG(salary_avg), 1) AS 平均日薪\nFROM jobs\nWHERE salary_avg IS NOT NULL\nGROUP BY education\nORDER BY education ASC",
+   "gold_sql": "select education, round(avg(salary_avg),1) as s from jobs where education is not null and salary_avg is not null group by education order by s desc",
+   "got_rows": 5,
+   "gold_rows": 5,
+   "sample_got": [
+    [
+     "不限",
+     229.5
+    ],
+    [
+     "博士",
+     513.2
+    ],
+    [
+     "大专",
+     151.3
+    ]
+   ],
+   "sample_gold": [
+    [
+     "博士",
+     513.2
+    ],
+    [
+     "硕士",
+     291.7
+    ],
+    [
+     "本科",
+     238.8
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 48,
+   "category": "分组",
+   "question": "按行业统计岗位数量",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 1,
+   "confidence": "medium",
+   "latency_ms": 1163,
+   "error": "",
+   "sql": "SELECT companies.industry AS 行业, COUNT(DISTINCT jobs.id) AS 岗位数 FROM jobs JOIN companies ON jobs.company_id = companies.id GROUP BY companies.industry ORDER BY 岗位数 DESC",
+   "gold_sql": "select c.industry, count(*) as n from jobs j join companies c on c.id=j.company_id group by c.industry order by n desc",
+   "got_rows": 5,
+   "gold_rows": 5,
+   "sample_got": [
+    [
+     "其他",
+     976
+    ],
+    [
+     "互联网",
+     505
+    ],
+    [
+     "汽车",
+     86
+    ]
+   ],
+   "sample_gold": [
+    [
+     "其他",
+     976
+    ],
+    [
+     "互联网",
+     505
+    ],
+    [
+     "汽车",
+     86
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 49,
+   "category": "分组",
+   "question": "按行业统计平均日薪",
+   "ok": false,
+   "strict": false,
+   "relaxed": false,
+   "attempts": 1,
+   "confidence": "low",
+   "latency_ms": 1431,
+   "error": "自修复失败：模型未能修正 SQL",
+   "sql": "SELECT jobs.industry AS 行业, ROUND(AVG(jobs.salary_avg), 1) AS 平均日薪\nFROM jobs\nWHERE salary_avg IS NOT NULL\nGROUP BY jobs.industry\nORDER BY 平均日薪 DESC\nLIMIT 10",
+   "gold_sql": "select c.industry, round(avg(j.salary_avg),1) as s from jobs j join companies c on c.id=j.company_id where j.salary_avg is not null group by c.industry order by s desc",
+   "got_rows": 0,
+   "gold_rows": 4,
+   "sample_got": [],
+   "sample_gold": [
+    [
+     "互联网",
+     299.9
+    ],
+    [
+     "硬件",
+     298
+    ],
+    [
+     "其他",
+     228.3
+    ]
+   ],
+   "kind": "empty"
+  },
+  {
+   "id": 50,
+   "category": "分组",
+   "question": "每周实习天数各有多少个岗位",
+   "ok": true,
+   "strict": false,
+   "relaxed": false,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 365,
+   "error": "",
+   "sql": "SELECT AVG(days_per_week) AS 每周天数 FROM jobs WHERE days_per_week IS NOT NULL",
+   "gold_sql": "select days_per_week, count(*) as n from jobs where days_per_week is not null group by days_per_week order by days_per_week",
+   "got_rows": 1,
+   "gold_rows": 7,
+   "sample_got": [
+    [
+     4.67
+    ]
+   ],
+   "sample_gold": [
+    [
+     1,
+     3
+    ],
+    [
+     2,
+     6
+    ],
+    [
+     3,
+     99
+    ]
+   ],
+   "kind": "row_count"
+  },
+  {
+   "id": 51,
+   "category": "分组",
+   "question": "实习月数分布，最多的5种",
+   "ok": true,
+   "strict": false,
+   "relaxed": false,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 608,
+   "error": "",
+   "sql": "SELECT months AS 实习月数, COUNT(*) AS 岗位数\nFROM jobs\nWHERE salary_avg IS NOT NULL\nGROUP BY months\nORDER BY 岗位数 DESC\nLIMIT 5",
+   "gold_sql": "select months, count(*) as n from jobs where months is not null group by months order by n desc limit 5",
+   "got_rows": 5,
+   "gold_rows": 5,
+   "sample_got": [
+    [
+     3,
+     768
+    ],
+    [
+     6,
+     368
+    ],
+    [
+     4,
+     121
+    ]
+   ],
+   "sample_gold": [
+    [
+     3,
+     842
+    ],
+    [
+     6,
+     385
+    ],
+    [
+     4,
+     141
+    ]
+   ],
+   "kind": "values"
+  },
+  {
+   "id": 52,
+   "category": "分组",
+   "question": "北京招聘岗位最多的5家公司",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 730,
+   "error": "",
+   "sql": "SELECT companies.name AS 公司, COUNT(jobs.id) AS 岗位数 FROM jobs JOIN companies ON jobs.company_id = companies.id WHERE jobs.city = '北京' AND companies.city IS NOT NULL GROUP BY companies.name ORDER BY 岗位数 DESC LIMIT 5",
+   "gold_sql": "select c.name, count(*) as n from jobs j join companies c on c.id=j.company_id where j.city='北京' group by c.id order by n desc limit 5",
+   "got_rows": 5,
+   "gold_rows": 5,
+   "sample_got": [
+    [
+     "滴滴",
+     116
+    ],
+    [
+     "百度",
+     60
+    ],
+    [
+     "快手",
+     56
+    ]
+   ],
+   "sample_gold": [
+    [
+     "滴滴",
+     116
+    ],
+    [
+     "百度",
+     60
+    ],
+    [
+     "快手",
+     56
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 53,
+   "category": "分组",
+   "question": "上海平均日薪最高的5家公司",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 903,
+   "error": "",
+   "sql": "SELECT companies.name AS 公司名, ROUND(AVG(jobs.salary_avg), 1) AS 平均日薪\nFROM jobs\nJOIN companies ON jobs.company_id = companies.id\nWHERE jobs.city = '上海' AND jobs.salary_avg IS NOT NULL\nGROUP BY companies.name\nORDER BY 平均日薪 DESC\nLIMIT 5",
+   "gold_sql": "select c.name, round(avg(j.salary_avg),1) as s from jobs j join companies c on c.id=j.company_id where j.city='上海' and j.salary_avg is not null group by c.id order by s desc limit 5",
+   "got_rows": 5,
+   "gold_rows": 5,
+   "sample_got": [
+    [
+     "言创万物",
+     900
+    ],
+    [
+     "小派创新科技",
+     750
+    ],
+    [
+     "上海念空",
+     750
+    ]
+   ],
+   "sample_gold": [
+    [
+     "言创万物",
+     900
+    ],
+    [
+     "小派创新科技",
+     750
+    ],
+    [
+     "上海念空",
+     750
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 54,
+   "category": "分组",
+   "question": "哪个城市的岗位数量最多？",
+   "ok": true,
+   "strict": false,
+   "relaxed": false,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 536,
+   "error": "",
+   "sql": "SELECT city AS 城市, COUNT(*) AS 岗位数 FROM jobs WHERE city IS NOT NULL GROUP BY city ORDER BY 岗位数 DESC LIMIT 50",
+   "gold_sql": "select city, count(*) as n from jobs where city is not null group by city order by n desc limit 1",
+   "got_rows": 42,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     "北京",
+     594
+    ],
+    [
+     "上海",
+     443
+    ],
+    [
+     "深圳",
+     126
+    ]
+   ],
+   "sample_gold": [
+    [
+     "北京",
+     594
+    ]
+   ],
+   "kind": "row_count"
+  },
+  {
+   "id": 55,
+   "category": "分组",
+   "question": "哪个行业的岗位数量最多？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 764,
+   "error": "",
+   "sql": "SELECT companies.industry AS 行业, COUNT(DISTINCT jobs.id) AS 岗位数 FROM jobs\nJOIN companies ON jobs.company_id = companies.id\nWHERE companies.industry IS NOT NULL\nGROUP BY companies.industry\nORDER BY 岗位数 DESC\nLIMIT 1",
+   "gold_sql": "select c.industry, count(*) as n from jobs j join companies c on c.id=j.company_id group by c.industry order by n desc limit 1",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     "其他",
+     976
+    ]
+   ],
+   "sample_gold": [
+    [
+     "其他",
+     976
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 56,
+   "category": "分组",
+   "question": "哪个学历要求的岗位最多？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 453,
+   "error": "",
+   "sql": "SELECT education AS 学历, COUNT(*) AS 岗位数 FROM jobs GROUP BY education ORDER BY 岗位数 DESC LIMIT 1",
+   "gold_sql": "select education, count(*) as n from jobs where education is not null group by education order by n desc limit 1",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     "本科",
+     910
+    ]
+   ],
+   "sample_gold": [
+    [
+     "本科",
+     910
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 57,
+   "category": "分组",
+   "question": "岗位数超过20个的城市有哪些？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 1,
+   "confidence": "medium",
+   "latency_ms": 1079,
+   "error": "",
+   "sql": "SELECT city AS 城市, COUNT(*) AS 岗位数 FROM jobs WHERE city IS NOT NULL GROUP BY city HAVING COUNT(*) > 20 ORDER BY 岗位数 DESC LIMIT 50",
+   "gold_sql": "select city, count(*) as n from jobs where city is not null group by city having n>20 order by n desc",
+   "got_rows": 8,
+   "gold_rows": 8,
+   "sample_got": [
+    [
+     "北京",
+     594
+    ],
+    [
+     "上海",
+     443
+    ],
+    [
+     "深圳",
+     126
+    ]
+   ],
+   "sample_gold": [
+    [
+     "北京",
+     594
+    ],
+    [
+     "上海",
+     443
+    ],
+    [
+     "深圳",
+     126
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 58,
+   "category": "分组",
+   "question": "平均日薪超过250元的城市有哪些？",
+   "ok": false,
+   "strict": false,
+   "relaxed": false,
+   "attempts": 3,
+   "confidence": "low",
+   "latency_ms": 2686,
+   "error": "执行失败且自修复次数用尽：语义校验未通过：按城市统计时请加 WHERE city IS NOT NULL，避免出现空城市分组",
+   "sql": "SELECT jobs.city AS 城市, ROUND(AVG(jobs.salary_avg), 1) AS 平均日薪\nFROM jobs\nWHERE salary_avg IS NOT NULL\nGROUP BY jobs.city\nHAVING ROUND(AVG(jobs.salary_avg), 1) > 250\nORDER BY 平均日薪 DESC\nLIMIT 50",
+   "gold_sql": "select city, round(avg(salary_avg),1) as s from jobs where city is not null and salary_avg is not null group by city having s>250 order by s desc",
+   "got_rows": 0,
+   "gold_rows": 4,
+   "sample_got": [],
+   "sample_gold": [
+    [
+     "北京",
+     288
+    ],
+    [
+     "东莞",
+     280
+    ],
+    [
+     "杭州",
+     267.6
+    ]
+   ],
+   "kind": "empty"
+  },
+  {
+   "id": 59,
+   "category": "分组",
+   "question": "各来源的岗位数量",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 1,
+   "confidence": "medium",
+   "latency_ms": 799,
+   "error": "",
+   "sql": "SELECT jobs.source AS 来源, COUNT(*) AS 岗位数 FROM jobs GROUP BY jobs.source ORDER BY 岗位数 DESC",
+   "gold_sql": "select source, count(*) as n from jobs group by source order by n desc",
+   "got_rows": 2,
+   "gold_rows": 2,
+   "sample_got": [
+    [
+     "实习僧",
+     1466
+    ],
+    [
+     "牛客",
+     152
+    ]
+   ],
+   "sample_gold": [
+    [
+     "实习僧",
+     1466
+    ],
+    [
+     "牛客",
+     152
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 60,
+   "category": "分组",
+   "question": "各来源的平均日薪",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 1,
+   "confidence": "medium",
+   "latency_ms": 1202,
+   "error": "",
+   "sql": "SELECT jobs.source AS 来源, ROUND(AVG(jobs.salary_avg), 1) AS 平均日薪\nFROM jobs\nWHERE salary_avg IS NOT NULL\nGROUP BY jobs.source\nORDER BY 平均日薪 DESC",
+   "gold_sql": "select source, round(avg(salary_avg),1) as s from jobs where salary_avg is not null group by source order by s desc",
+   "got_rows": 2,
+   "gold_rows": 2,
+   "sample_got": [
+    [
+     "牛客",
+     306.3
+    ],
+    [
+     "实习僧",
+     246.8
+    ]
+   ],
+   "sample_gold": [
+    [
+     "牛客",
+     306.3
+    ],
+    [
+     "实习僧",
+     246.8
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 61,
+   "category": "分组",
+   "question": "深圳和北京哪个岗位多？",
+   "ok": true,
+   "strict": false,
+   "relaxed": false,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 684,
+   "error": "",
+   "sql": "SELECT city AS 城市, COUNT(*) AS 岗位数\nFROM jobs WHERE salary_avg IS NOT NULL AND (city = '深圳' OR city = '北京')\nGROUP BY city\nORDER BY 岗位数 DESC\nLIMIT 1",
+   "gold_sql": "select city, count(*) as n from jobs where city in ('北京','深圳') group by city order by n desc",
+   "got_rows": 1,
+   "gold_rows": 2,
+   "sample_got": [
+    [
+     "北京",
+     497
+    ]
+   ],
+   "sample_gold": [
+    [
+     "北京",
+     594
+    ],
+    [
+     "深圳",
+     126
+    ]
+   ],
+   "kind": "row_count"
+  },
+  {
+   "id": 62,
+   "category": "技能",
+   "question": "要求 Python 的岗位有多少个？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 654,
+   "error": "",
+   "sql": "SELECT COUNT(DISTINCT job_skills.job_id) AS 技能覆盖岗位数\nFROM jobs\nJOIN job_skills ON jobs.id = job_skills.job_id\nJOIN skills ON job_skills.skill_id = skills.id\nWHERE skills.name = 'Python'",
+   "gold_sql": "select count(distinct j.id) from jobs j join job_skills js on js.job_id=j.id join skills s on s.id=js.skill_id where s.name='Python'",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     404
+    ]
+   ],
+   "sample_gold": [
+    [
+     404
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 63,
+   "category": "技能",
+   "question": "要求 Agent 的岗位有多少个？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 1,
+   "confidence": "medium",
+   "latency_ms": 1134,
+   "error": "",
+   "sql": "SELECT COUNT(DISTINCT jobs.id) AS 岗位数\nFROM jobs\nJOIN job_skills js ON js.job_id = jobs.id\nJOIN skills s ON s.id = js.skill_id\nWHERE s.name = 'Agent'",
+   "gold_sql": "select count(distinct j.id) from jobs j join job_skills js on js.job_id=j.id join skills s on s.id=js.skill_id where s.name='Agent'",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     240
+    ]
+   ],
+   "sample_gold": [
+    [
+     240
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 64,
+   "category": "技能",
+   "question": "要求算法的岗位有多少个？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 1,
+   "confidence": "medium",
+   "latency_ms": 1135,
+   "error": "",
+   "sql": "SELECT COUNT(DISTINCT jobs.id) AS 岗位数\nFROM jobs\nJOIN job_skills js ON js.job_id = jobs.id\nJOIN skills s ON s.id = js.skill_id\nWHERE s.name = '算法'",
+   "gold_sql": "select count(distinct j.id) from jobs j join job_skills js on js.job_id=j.id join skills s on s.id=js.skill_id where s.name='算法'",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     679
+    ]
+   ],
+   "sample_gold": [
+    [
+     679
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 65,
+   "category": "技能",
+   "question": "要求 RAG 的岗位有多少个？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 669,
+   "error": "",
+   "sql": "SELECT COUNT(DISTINCT job_skills.job_id) AS 技能覆盖岗位数\nFROM jobs\nJOIN job_skills ON jobs.id = job_skills.job_id\nJOIN skills ON job_skills.skill_id = skills.id\nWHERE skills.name = 'RAG'",
+   "gold_sql": "select count(distinct j.id) from jobs j join job_skills js on js.job_id=j.id join skills s on s.id=js.skill_id where s.name='RAG'",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     125
+    ]
+   ],
+   "sample_gold": [
+    [
+     125
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 66,
+   "category": "技能",
+   "question": "要求大模型/LLM 的岗位有多少个？",
+   "ok": true,
+   "strict": false,
+   "relaxed": false,
+   "attempts": 2,
+   "confidence": "medium",
+   "latency_ms": 2536,
+   "error": "",
+   "sql": "SELECT COUNT(*) AS 岗位数\nFROM jobs\nJOIN job_skills js ON js.job_id = jobs.id\nJOIN skills s ON s.id = js.skill_id\nWHERE s.name IN ('大模型/LLM', 'LangChain')\nGROUP BY jobs.id\nHAVING COUNT(DISTINCT s.name) = 2\nORDER BY jobs.id DESC\nLIMIT 1",
+   "gold_sql": "select count(distinct j.id) from jobs j join job_skills js on js.job_id=j.id join skills s on s.id=js.skill_id where s.name='大模型/LLM'",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     2
+    ]
+   ],
+   "sample_gold": [
+    [
+     491
+    ]
+   ],
+   "kind": "values"
+  },
+  {
+   "id": 67,
+   "category": "技能",
+   "question": "要求 React 的岗位有多少个？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 654,
+   "error": "",
+   "sql": "SELECT COUNT(DISTINCT job_skills.job_id) AS 技能覆盖岗位数\nFROM jobs\nJOIN job_skills ON jobs.id = job_skills.job_id\nJOIN skills ON job_skills.skill_id = skills.id\nWHERE skills.name = 'React'",
+   "gold_sql": "select count(distinct j.id) from jobs j join job_skills js on js.job_id=j.id join skills s on s.id=js.skill_id where s.name='React'",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     73
+    ]
+   ],
+   "sample_gold": [
+    [
+     73
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 68,
+   "category": "技能",
+   "question": "要求 Python 的岗位平均日薪是多少？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 746,
+   "error": "",
+   "sql": "SELECT ROUND(AVG(jobs.salary_avg), 1) AS 平均日薪\nFROM jobs\nJOIN job_skills ON jobs.id = job_skills.job_id\nJOIN skills ON job_skills.skill_id = skills.id\nWHERE skills.name = 'Python' AND jobs.salary_avg IS NOT NULL",
+   "gold_sql": "select round(avg(j.salary_avg),1) from jobs j join job_skills js on js.job_id=j.id join skills s on s.id=js.skill_id where s.name='Python' and j.salary_avg is not null",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     275.2
+    ]
+   ],
+   "sample_gold": [
+    [
+     275.2
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 69,
+   "category": "技能",
+   "question": "要求 Agent 的岗位平均日薪是多少？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 603,
+   "error": "",
+   "sql": "SELECT AVG(jobs.salary_avg) AS 平均日薪\nFROM jobs\nJOIN job_skills ON jobs.id = job_skills.job_id\nJOIN skills ON job_skills.skill_id = skills.id\nWHERE skills.name = 'Agent'",
+   "gold_sql": "select round(avg(j.salary_avg),1) from jobs j join job_skills js on js.job_id=j.id join skills s on s.id=js.skill_id where s.name='Agent' and j.salary_avg is not null",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     308.6
+    ]
+   ],
+   "sample_gold": [
+    [
+     308.6
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 70,
+   "category": "技能",
+   "question": "招 Python 最多的5家公司",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 1026,
+   "error": "",
+   "sql": "SELECT c.name AS 公司, COUNT(DISTINCT j.id) AS 岗位数\nFROM skills s\nJOIN job_skills js ON js.skill_id = s.id\nJOIN jobs j ON j.id = js.job_id\nJOIN companies c ON c.id = j.company_id\nWHERE s.name = 'Python'\nGROUP BY c.name\nORDER BY 岗位数 DESC\nLIMIT 5",
+   "gold_sql": "select c.name, count(distinct j.id) as n from jobs j join companies c on c.id=j.company_id join job_skills js on js.job_id=j.id join skills s on s.id=js.skill_id where s.name='Python' group by c.id order by n desc limit 5",
+   "got_rows": 5,
+   "gold_rows": 5,
+   "sample_got": [
+    [
+     "滴滴",
+     32
+    ],
+    [
+     "百度",
+     21
+    ],
+    [
+     "博世中国",
+     21
+    ]
+   ],
+   "sample_gold": [
+    [
+     "滴滴",
+     32
+    ],
+    [
+     "百度",
+     21
+    ],
+    [
+     "博世中国",
+     21
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 71,
+   "category": "技能",
+   "question": "北京要求 Python 的岗位有多少个？",
+   "ok": true,
+   "strict": false,
+   "relaxed": false,
+   "attempts": 1,
+   "confidence": "medium",
+   "latency_ms": 1380,
+   "error": "",
+   "sql": "SELECT COUNT(DISTINCT jobs.id) AS 岗位数\nFROM jobs\nJOIN job_skills ON jobs.id = job_skills.job_id\nJOIN skills ON job_skills.skill_id = skills.id\nWHERE jobs.city = '北京' AND skills.name = 'Python' AND jobs.salary_avg IS NOT NULL\nLIMIT 50",
+   "gold_sql": "select count(distinct j.id) from jobs j join job_skills js on js.job_id=j.id join skills s on s.id=js.skill_id where s.name='Python' and j.city='北京'",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     128
+    ]
+   ],
+   "sample_gold": [
+    [
+     144
+    ]
+   ],
+   "kind": "values"
+  },
+  {
+   "id": 72,
+   "category": "技能",
+   "question": "上海要求大模型/LLM 的岗位有多少个？",
+   "ok": true,
+   "strict": false,
+   "relaxed": false,
+   "attempts": 1,
+   "confidence": "medium",
+   "latency_ms": 1538,
+   "error": "",
+   "sql": "SELECT COUNT(DISTINCT jobs.id) AS 岗位数\nFROM jobs\nJOIN job_skills ON jobs.id = job_skills.job_id\nJOIN skills ON job_skills.skill_id = skills.id\nWHERE jobs.city = '上海' AND skills.name IN ('大模型/LLM', 'RAG', 'Agent', 'Prompt', '微调', 'LangChain')",
+   "gold_sql": "select count(distinct j.id) from jobs j join job_skills js on js.job_id=j.id join skills s on s.id=js.skill_id where s.name='大模型/LLM' and j.city='上海'",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     160
+    ]
+   ],
+   "sample_gold": [
+    [
+     139
+    ]
+   ],
+   "kind": "values"
+  },
+  {
+   "id": 73,
+   "category": "技能",
+   "question": "同时要求 Python 和 Agent 的岗位有多少个？",
+   "ok": true,
+   "strict": false,
+   "relaxed": false,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 689,
+   "error": "",
+   "sql": "SELECT COUNT(DISTINCT j.id) AS 岗位数\nFROM jobs j\nJOIN job_skills js ON j.id = js.job_id\nJOIN skills s ON js.skill_id = s.id\nWHERE s.name IN ('Python', 'Agent')",
+   "gold_sql": "select count(*) from (select js.job_id from job_skills js join skills s on s.id=js.skill_id where s.name in ('Python','Agent') group by js.job_id having count(distinct s.name)=2)",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     533
+    ]
+   ],
+   "sample_gold": [
+    [
+     111
+    ]
+   ],
+   "kind": "values"
+  },
+  {
+   "id": 74,
+   "category": "技能",
+   "question": "要求 SQL 的岗位有多少个？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 1,
+   "confidence": "medium",
+   "latency_ms": 1127,
+   "error": "",
+   "sql": "SELECT COUNT(DISTINCT jobs.id) AS 岗位数\nFROM jobs\nJOIN job_skills js ON js.job_id = jobs.id\nJOIN skills s ON s.id = js.skill_id\nWHERE s.name = 'SQL'",
+   "gold_sql": "select count(distinct j.id) from jobs j join job_skills js on js.job_id=j.id join skills s on s.id=js.skill_id where s.name='SQL'",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     297
+    ]
+   ],
+   "sample_gold": [
+    [
+     297
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 75,
+   "category": "技能",
+   "question": "要求 MySQL 的岗位有多少个？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 579,
+   "error": "",
+   "sql": "SELECT COUNT(DISTINCT jobs.id) AS 岗位数 FROM jobs JOIN job_skills ON jobs.id = job_skills.job_id JOIN skills ON job_skills.skill_id = skills.id WHERE skills.name = 'MySQL'",
+   "gold_sql": "select count(distinct j.id) from jobs j join job_skills js on js.job_id=j.id join skills s on s.id=js.skill_id where s.name='MySQL'",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     146
+    ]
+   ],
+   "sample_gold": [
+    [
+     146
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 76,
+   "category": "技能",
+   "question": "要求深度学习的岗位平均日薪是多少？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 1,
+   "confidence": "medium",
+   "latency_ms": 1374,
+   "error": "",
+   "sql": "SELECT ROUND(AVG(jobs.salary_avg), 1) AS 平均日薪\nFROM jobs\nJOIN job_skills ON jobs.id = job_skills.job_id\nJOIN skills ON job_skills.skill_id = skills.id\nWHERE skills.name = '深度学习' AND jobs.salary_avg IS NOT NULL",
+   "gold_sql": "select round(avg(j.salary_avg),1) from jobs j join job_skills js on js.job_id=j.id join skills s on s.id=js.skill_id where s.name='深度学习' and j.salary_avg is not null",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     292.2
+    ]
+   ],
+   "sample_gold": [
+    [
+     292.2
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 77,
+   "category": "技能",
+   "question": "技能数量最多的5个岗位是哪些？",
+   "ok": true,
+   "strict": false,
+   "relaxed": false,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 601,
+   "error": "",
+   "sql": "SELECT title AS 岗位, COUNT(skill_id) AS 技能数 FROM job_skills JOIN jobs ON job_skills.job_id = jobs.id GROUP BY title ORDER BY 技能数 DESC LIMIT 5",
+   "gold_sql": "select j.title, count(*) as n from jobs j join job_skills js on js.job_id=j.id group by j.id order by n desc limit 5",
+   "got_rows": 5,
+   "gold_rows": 5,
+   "sample_got": [
+    [
+     "算法实习生",
+     90
+    ],
+    [
+     "算法工程师",
+     63
+    ],
+    [
+     "数据分析实习生",
+     57
+    ]
+   ],
+   "sample_gold": [
+    [
+     "FDE-AI前线部署工程师/AI应用交付工程师（实习及全职）",
+     22
+    ],
+    [
+     "全栈开发实习生",
+     20
+    ],
+    [
+     "AI全栈开发实习生-北京",
+     19
+    ]
+   ],
+   "kind": "values"
+  },
+  {
+   "id": 78,
+   "category": "技能",
+   "question": "每个技能类别下有多少个岗位？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 5252,
+   "error": "",
+   "sql": "SELECT skills.category AS 技能类别, COUNT(DISTINCT jobs.id) AS 岗位数\nFROM jobs\nJOIN job_skills ON jobs.id = job_skills.job_id\nJOIN skills ON job_skills.skill_id = skills.id\nGROUP BY skills.category\nORDER BY skills.category ASC\nLIMIT 8",
+   "gold_sql": "select s.category, count(distinct js.job_id) as n from skills s join job_skills js on js.skill_id=s.id group by s.category order by n desc",
+   "got_rows": 8,
+   "gold_rows": 8,
+   "sample_got": [
+    [
+     "AI",
+     715
+    ],
+    [
+     "前端",
+     201
+    ],
+    [
+     "后端",
+     716
+    ]
+   ],
+   "sample_gold": [
+    [
+     "后端",
+     716
+    ],
+    [
+     "AI",
+     715
+    ],
+    [
+     "数据",
+     705
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 79,
+   "category": "技能",
+   "question": "要求 Java 的岗位有多少个？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 647,
+   "error": "",
+   "sql": "SELECT COUNT(DISTINCT job_skills.job_id) AS 技能覆盖岗位数\nFROM jobs\nJOIN job_skills ON jobs.id = job_skills.job_id\nJOIN skills ON job_skills.skill_id = skills.id\nWHERE skills.name = 'Java'",
+   "gold_sql": "select count(distinct j.id) from jobs j join job_skills js on js.job_id=j.id join skills s on s.id=js.skill_id where s.name='Java'",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     205
+    ]
+   ],
+   "sample_gold": [
+    [
+     205
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 80,
+   "category": "技能",
+   "question": "要求 C++ 的岗位有多少个？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 657,
+   "error": "",
+   "sql": "SELECT COUNT(DISTINCT job_skills.job_id) AS 技能覆盖岗位数\nFROM jobs\nJOIN job_skills ON jobs.id = job_skills.job_id\nJOIN skills ON job_skills.skill_id = skills.id\nWHERE skills.name = 'C++'",
+   "gold_sql": "select count(distinct j.id) from jobs j join job_skills js on js.job_id=j.id join skills s on s.id=js.skill_id where s.name='C++'",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     305
+    ]
+   ],
+   "sample_gold": [
+    [
+     305
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 81,
+   "category": "技能",
+   "question": "要求 PyTorch 的岗位有多少个？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 669,
+   "error": "",
+   "sql": "SELECT COUNT(DISTINCT job_skills.job_id) AS 技能覆盖岗位数\nFROM jobs\nJOIN job_skills ON jobs.id = job_skills.job_id\nJOIN skills ON job_skills.skill_id = skills.id\nWHERE skills.name = 'PyTorch'",
+   "gold_sql": "select count(distinct j.id) from jobs j join job_skills js on js.job_id=j.id join skills s on s.id=js.skill_id where s.name='PyTorch'",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     201
+    ]
+   ],
+   "sample_gold": [
+    [
+     201
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 82,
+   "category": "组合",
+   "question": "北京招 Python 的公司有多少家？",
+   "ok": true,
+   "strict": false,
+   "relaxed": false,
+   "attempts": 1,
+   "confidence": "medium",
+   "latency_ms": 1806,
+   "error": "",
+   "sql": "SELECT COUNT(DISTINCT c.name) AS 公司数\nFROM jobs j\nJOIN companies c ON c.id = j.company_id\nJOIN job_skills js ON js.job_id = j.id\nJOIN skills s ON s.id = js.skill_id\nWHERE j.city = '北京' AND s.name = 'Python'\nGROUP BY c.name\nORDER BY c.name DESC",
+   "gold_sql": "select count(distinct j.company_id) from jobs j join job_skills js on js.job_id=j.id join skills s on s.id=js.skill_id where s.name='Python' and j.city='北京'",
+   "got_rows": 54,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     1
+    ],
+    [
+     1
+    ],
+    [
+     1
+    ]
+   ],
+   "sample_gold": [
+    [
+     54
+    ]
+   ],
+   "kind": "row_count"
+  },
+  {
+   "id": 83,
+   "category": "组合",
+   "question": "上海要求硕士学历的岗位有多少个？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 371,
+   "error": "",
+   "sql": "SELECT COUNT(*) AS 岗位数 FROM jobs WHERE city = '上海' AND education = '硕士'",
+   "gold_sql": "select count(*) from jobs where city='上海' and education='硕士'",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     115
+    ]
+   ],
+   "sample_gold": [
+    [
+     115
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 84,
+   "category": "组合",
+   "question": "深圳要求本科、日薪超过200的岗位有多少个？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 447,
+   "error": "",
+   "sql": "SELECT COUNT(*) AS 岗位数 FROM jobs WHERE city = '深圳' AND education = '本科' AND salary_avg > 200",
+   "gold_sql": "select count(*) from jobs where city='深圳' and education='本科' and salary_avg>200",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     40
+    ]
+   ],
+   "sample_gold": [
+    [
+     40
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 85,
+   "category": "组合",
+   "question": "北京互联网行业有哪些公司在招人？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 523,
+   "error": "",
+   "sql": "SELECT c.name AS 公司\nFROM companies c\nWHERE c.industry = '互联网'\nGROUP BY c.name\nORDER BY COUNT(c.id) DESC\nLIMIT 20",
+   "gold_sql": "select distinct c.name from jobs j join companies c on c.id=j.company_id where j.city='北京' and c.industry='互联网' order by c.name",
+   "got_rows": 11,
+   "gold_rows": 11,
+   "sample_got": [
+    [
+     "京东"
+    ],
+    [
+     "哔哩哔哩"
+    ],
+    [
+     "字节跳动"
+    ]
+   ],
+   "sample_gold": [
+    [
+     "京东"
+    ],
+    [
+     "哔哩哔哩"
+    ],
+    [
+     "字节跳动"
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 86,
+   "category": "组合",
+   "question": "杭州要求每周4天及以上的岗位有多少个？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 371,
+   "error": "",
+   "sql": "SELECT COUNT(*) AS 岗位数 FROM jobs WHERE city = '杭州' AND days_per_week >= 4",
+   "gold_sql": "select count(*) from jobs where city='杭州' and days_per_week>=4",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     58
+    ]
+   ],
+   "sample_gold": [
+    [
+     58
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 87,
+   "category": "组合",
+   "question": "广州要求实习3个月及以上的岗位有多少个？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 352,
+   "error": "",
+   "sql": "SELECT COUNT(*) AS 岗位数 FROM jobs WHERE city = '广州' AND months >= 3",
+   "gold_sql": "select count(*) from jobs where city='广州' and months>=3",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     52
+    ]
+   ],
+   "sample_gold": [
+    [
+     52
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 88,
+   "category": "组合",
+   "question": "北京招 Agent 但没写薪资的岗位有多少个？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 1,
+   "confidence": "medium",
+   "latency_ms": 1200,
+   "error": "",
+   "sql": "SELECT COUNT(DISTINCT jobs.id) AS 岗位数\nFROM jobs\nJOIN job_skills ON jobs.id = job_skills.job_id\nJOIN skills ON job_skills.skill_id = skills.id\nWHERE jobs.city = '北京' AND skills.name = 'Agent' AND jobs.salary_avg IS NULL",
+   "gold_sql": "select count(distinct j.id) from jobs j join job_skills js on js.job_id=j.id join skills s on s.id=js.skill_id where s.name='Agent' and j.city='北京' and j.salary_avg is null",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     21
+    ]
+   ],
+   "sample_gold": [
+    [
+     21
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 89,
+   "category": "组合",
+   "question": "北京和上海的平均日薪分别是多少？",
+   "ok": true,
+   "strict": false,
+   "relaxed": false,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 601,
+   "error": "",
+   "sql": "SELECT AVG(jobs.salary_avg) AS 平均日薪\nFROM jobs\nJOIN companies ON jobs.company_id = companies.id\nWHERE companies.city IN ('北京', '上海') AND jobs.salary_avg IS NOT NULL",
+   "gold_sql": "select city, round(avg(salary_avg),1) from jobs where city in ('北京','上海') and salary_avg is not null group by city order by city",
+   "got_rows": 1,
+   "gold_rows": 2,
+   "sample_got": [
+    [
+     267.54
+    ]
+   ],
+   "sample_gold": [
+    [
+     "上海",
+     246.4
+    ],
+    [
+     "北京",
+     288
+    ]
+   ],
+   "kind": "row_count"
+  },
+  {
+   "id": 90,
+   "category": "组合",
+   "question": "要求本科且招 Python 的岗位有多少个？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 1,
+   "confidence": "medium",
+   "latency_ms": 1073,
+   "error": "",
+   "sql": "SELECT COUNT(DISTINCT jobs.id) AS 岗位数\nFROM jobs\nJOIN job_skills ON jobs.id = job_skills.job_id\nJOIN skills ON job_skills.skill_id = skills.id\nWHERE jobs.education = '本科' AND skills.name = 'Python'",
+   "gold_sql": "select count(distinct j.id) from jobs j join job_skills js on js.job_id=j.id join skills s on s.id=js.skill_id where s.name='Python' and j.education='本科'",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     210
+    ]
+   ],
+   "sample_gold": [
+    [
+     210
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 91,
+   "category": "组合",
+   "question": "要求硕士且招算法技能的岗位有多少个？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 1,
+   "confidence": "medium",
+   "latency_ms": 1544,
+   "error": "",
+   "sql": "SELECT COUNT(DISTINCT jobs.id) AS 岗位数\nFROM jobs\nJOIN job_skills ON jobs.id = job_skills.job_id\nJOIN skills ON job_skills.skill_id = skills.id\nWHERE skills.name = '算法' AND jobs.education = '硕士'",
+   "gold_sql": "select count(distinct j.id) from jobs j join job_skills js on js.job_id=j.id join skills s on s.id=js.skill_id where s.name='算法' and j.education='硕士'",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     240
+    ]
+   ],
+   "sample_gold": [
+    [
+     240
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 92,
+   "category": "组合",
+   "question": "平均每家公司招几个岗位？",
+   "ok": true,
+   "strict": false,
+   "relaxed": false,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 561,
+   "error": "",
+   "sql": "SELECT ROUND(COUNT(DISTINCT jobs.id) / companies.job_count, 1) AS 平均岗位数 FROM jobs JOIN companies ON jobs.company_id = companies.id WHERE companies.job_count IS NOT NULL",
+   "gold_sql": "select round(avg(job_count),1) from companies where job_count>0",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     1618
+    ]
+   ],
+   "sample_gold": [
+    [
+     2.8
+    ]
+   ],
+   "kind": "values"
+  },
+  {
+   "id": 93,
+   "category": "组合",
+   "question": "公司数量最多的5个城市",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 1,
+   "confidence": "medium",
+   "latency_ms": 1178,
+   "error": "",
+   "sql": "SELECT city AS 城市, COUNT(DISTINCT id) AS 公司数\nFROM companies\nWHERE city IS NOT NULL\nGROUP BY city\nORDER BY 公司数 DESC\nLIMIT 5",
+   "gold_sql": "select city, count(*) as n from companies where city is not null group by city order by n desc limit 5",
+   "got_rows": 5,
+   "gold_rows": 5,
+   "sample_got": [
+    [
+     "上海",
+     163
+    ],
+    [
+     "北京",
+     151
+    ],
+    [
+     "深圳",
+     56
+    ]
+   ],
+   "sample_gold": [
+    [
+     "上海",
+     163
+    ],
+    [
+     "北京",
+     151
+    ],
+    [
+     "深圳",
+     56
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 94,
+   "category": "组合",
+   "question": "岗位数最少但至少有5个岗位的城市是哪个？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 578,
+   "error": "",
+   "sql": "SELECT city AS 城市, COUNT(*) AS 岗位数 FROM jobs WHERE city IS NOT NULL GROUP BY city HAVING COUNT(*) >= 5 ORDER BY 岗位数 ASC LIMIT 1",
+   "gold_sql": "select city, count(*) as n from jobs where city is not null group by city having n>=5 order by n asc limit 1",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     "东莞",
+     5
+    ]
+   ],
+   "sample_gold": [
+    [
+     "东莞",
+     5
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 95,
+   "category": "组合",
+   "question": "每周5天且日薪超过300的岗位有多少个？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 397,
+   "error": "",
+   "sql": "SELECT COUNT(*) AS 岗位数 FROM jobs WHERE days_per_week = 5 AND salary_avg > 300",
+   "gold_sql": "select count(*) from jobs where days_per_week=5 and salary_avg>300",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     219
+    ]
+   ],
+   "sample_gold": [
+    [
+     219
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 96,
+   "category": "组合",
+   "question": "互联网行业招 Python 的岗位有多少个？",
+   "ok": false,
+   "strict": false,
+   "relaxed": false,
+   "attempts": 2,
+   "confidence": "low",
+   "latency_ms": 2295,
+   "error": "自修复失败：模型未能修正 SQL",
+   "sql": "SELECT COUNT(DISTINCT jobs.id) AS 岗位数\nFROM jobs\nJOIN job_skills ON jobs.id = job_skills.job_id\nJOIN skills ON job_skills.skill_id = skills.id\nWHERE skills.name = 'Python' AND jobs.industry = '互联网' AND jobs.salary_avg IS NOT NULL",
+   "gold_sql": "select count(distinct j.id) from jobs j join companies c on c.id=j.company_id join job_skills js on js.job_id=j.id join skills s on s.id=js.skill_id where s.name='Python' and c.industry='互联网'",
+   "got_rows": 0,
+   "gold_rows": 1,
+   "sample_got": [],
+   "sample_gold": [
+    [
+     118
+    ]
+   ],
+   "kind": "empty"
+  },
+  {
+   "id": 97,
+   "category": "组合",
+   "question": "汽车行业招人最多的公司是哪家？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 791,
+   "error": "",
+   "sql": "SELECT c.name AS 公司, COUNT(DISTINCT j.id) AS 岗位数\nFROM companies c\nJOIN jobs j ON c.id = j.company_id\nWHERE c.industry = '汽车'\nGROUP BY c.name\nORDER BY 岗位数 DESC\nLIMIT 1",
+   "gold_sql": "select c.name, count(*) as n from jobs j join companies c on c.id=j.company_id where c.industry='汽车' group by c.id order by n desc limit 1",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     "NIO蔚来",
+     37
+    ]
+   ],
+   "sample_gold": [
+    [
+     "NIO蔚来",
+     37
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 98,
+   "category": "组合",
+   "question": "硕士学历岗位的平均日薪比本科高多少元？",
+   "ok": true,
+   "strict": false,
+   "relaxed": false,
+   "attempts": 1,
+   "confidence": "medium",
+   "latency_ms": 2007,
+   "error": "",
+   "sql": "SELECT education AS 学历, ROUND(AVG(salary_avg), 1) AS 平均日薪\nFROM jobs\nWHERE education = '硕士' AND salary_avg IS NOT NULL\nGROUP BY education\nHAVING 平均日薪 - (SELECT AVG(salary_avg) FROM jobs WHERE education = '本科' AND salary_avg IS NOT NULL) > 0\nORDER BY 平均日薪 DESC\nLIMIT 1",
+   "gold_sql": "select round((select avg(salary_avg) from jobs where education='硕士' and salary_avg is not null) - (select avg(salary_avg) from jobs where education='本科' and salary_avg is not null),1)",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     "硕士",
+     291.7
+    ]
+   ],
+   "sample_gold": [
+    [
+     52.9
+    ]
+   ],
+   "kind": "col_count"
+  },
+  {
+   "id": 99,
+   "category": "组合",
+   "question": "同时要求 Python 和机器学习的岗位有多少个？",
+   "ok": true,
+   "strict": false,
+   "relaxed": false,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 711,
+   "error": "",
+   "sql": "SELECT COUNT(DISTINCT j.id) AS 岗位数\nFROM jobs j\nJOIN job_skills js ON j.id = js.job_id\nJOIN skills s ON js.skill_id = s.id\nWHERE s.name IN ('Python', '机器学习')",
+   "gold_sql": "select count(*) from (select js.job_id from job_skills js join skills s on s.id=js.skill_id where s.name in ('Python','机器学习') group by js.job_id having count(distinct s.name)=2)",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     551
+    ]
+   ],
+   "sample_gold": [
+    [
+     83
+    ]
+   ],
+   "kind": "values"
+  },
+  {
+   "id": 100,
+   "category": "组合",
+   "question": "北京一共有多少家公司在招聘？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 370,
+   "error": "",
+   "sql": "SELECT COUNT(DISTINCT company_id) AS 公司数 FROM jobs WHERE city = '北京'",
+   "gold_sql": "select count(distinct company_id) from jobs where city='北京'",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     165
+    ]
+   ],
+   "sample_gold": [
+    [
+     165
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 101,
+   "category": "组合",
+   "question": "实习6个月的岗位平均日薪是多少？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 509,
+   "error": "",
+   "sql": "SELECT ROUND(AVG(jobs.salary_avg), 1) AS 平均日薪\nFROM jobs\nWHERE jobs.months = 6\nAND salary_avg IS NOT NULL",
+   "gold_sql": "select round(avg(salary_avg),1) from jobs where months=6 and salary_avg is not null",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     228.5
+    ]
+   ],
+   "sample_gold": [
+    [
+     228.5
+    ]
+   ],
+   "kind": "ok"
+  },
+  {
+   "id": 102,
+   "category": "组合",
+   "question": "不限学历的岗位平均日薪是多少？",
+   "ok": true,
+   "strict": true,
+   "relaxed": true,
+   "attempts": 0,
+   "confidence": "high",
+   "latency_ms": 529,
+   "error": "",
+   "sql": "SELECT ROUND(AVG(jobs.salary_avg), 1) AS 平均日薪\nFROM jobs\nWHERE jobs.education = '不限' AND jobs.salary_avg IS NOT NULL",
+   "gold_sql": "select round(avg(salary_avg),1) from jobs where education='不限' and salary_avg is not null",
+   "got_rows": 1,
+   "gold_rows": 1,
+   "sample_got": [
+    [
+     229.5
+    ]
+   ],
+   "sample_gold": [
+    [
+     229.5
+    ]
+   ],
+   "kind": "ok"
+  }
+ ]
+}
